@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
     locale: "es-SV",
   },
   social: {
-    instagram: "https://www.instagram.com/ixchelsv/",
+    instagram: "https://www.instagram.com/ixchelsv/?hl=es-la",
     facebook: "https://www.facebook.com/profile.php?id=61593977804758",
     tiktok: "#", // pendiente
     email: "hola@ixchel-artesanal.com",

@@ -286,7 +286,7 @@ export default function HomePage() {
           <div className="text-center max-w-xl mx-auto mb-12 space-y-3">
             <div className="inline-flex items-center gap-2 text-salvia-dark text-xs font-bold tracking-widest uppercase">
               <InstagramLogo size={18} weight="fill" className="text-terracotta" />
-              <span>@ixchel.artesanal</span>
+              <span>@ixchelsv</span>
             </div>
             <h2 className="font-sans font-extrabold text-3xl text-tierra">
               Rincones verdes de nuestra comunidad
