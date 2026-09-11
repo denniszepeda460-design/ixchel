@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  --color-terracotta: #bf692e;
+  --color-terracotta-dark: #a25220;
+  --color-terracotta-light: #faeee4;
+  
+  --color-salvia: #77806b;
+  --color-salvia-dark: #5a6250;
+  --color-salvia-light: #e6eae2;
+  
+  --color-crema: #f7f3ec;
+  --color-crema-tint: #f3e7d1;
+  --color-crema-dark: #e5dac4;
+  
+  --color-tierra: #2c231c;
+  --color-tierra-muted: #615349;
+  --color-tierra-light: #8e7c70;
+  
+  --color-luna: #d8a643;
+  --color-luna-light: #fbf0d8;
+  
+  --color-blanco-artesanal: #fffdfa;
+
+  --font-cursive: var(--font-caveat), cursive;
+  --font-sans: var(--font-nunito), system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --background: #f7f3ec;
+  --foreground: #2c231c;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Microinteractions: button press feedback (Emil Kowalski / Apple design principles) */
+button, a[role="button"], .interactive-press {
+  transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+button:active:not(:disabled), a[role="button"]:active {
+  transform: scale(0.97);
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom delicate scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f3e7d1;
+}
+::-webkit-scrollbar-thumb {
+  background: #bf692e66;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bf692e;
+}
