@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Product, products } from "@/data/products";
+import { Product, products, getDiscountPercentage } from "@/data/products";
 import { formatPrice, siteConfig } from "@/config/site";
 import { useCartStore } from "@/store/cartStore";
 import Badge from "@/components/ui/Badge";
@@ -37,12 +37,13 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const [selectedColor, setSelectedColor] = useState<string>(availableColorList[0] || "Blanco Base");
   const [justAdded, setJustAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
+  const discount = getDiscountPercentage(product);
 
   const handleAddToCart = (e?: React.MouseEvent) => {
     addItem(product, quantity, selectedColor);
     if (e) triggerCartAnimation(e);
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1500);
+    setTimeout(() => setJustAdded(false), 2200);
   };
 
   const relatedProducts = products
@@ -88,13 +89,19 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
-              {product.badge && (
-                <div className="absolute top-4 left-4 z-10">
+              {/* Badges flotantes */}
+              <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 items-start">
+                {product.onSale && discount && (
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-terracotta text-white shadow-md font-sans">
+                    Oferta -{discount}%
+                  </span>
+                )}
+                {product.badge && (
                   <Badge variant="terracotta" className="bg-white/95 backdrop-blur-sm shadow-xs">
                     {product.badge}
                   </Badge>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Miniaturas de galería */}
@@ -152,10 +159,20 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               </p>
 
               {/* Precio */}
-              <div className="mt-4 flex items-baseline gap-3">
+              <div className="mt-4 flex flex-wrap items-baseline gap-3">
                 <span className="text-3xl sm:text-4xl font-extrabold text-terracotta font-sans">
                   {formatPrice(product.price)}
                 </span>
+                {product.onSale && product.regularPrice && (
+                  <span className="text-xl sm:text-2xl text-tierra-light line-through font-normal">
+                    {formatPrice(product.regularPrice)}
+                  </span>
+                )}
+                {product.onSale && discount && (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-terracotta/10 text-terracotta border border-terracotta/30">
+                    Ahorra {discount}%
+                  </span>
+                )}
                 <span className="text-xs text-tierra-light">
                   Precio unitario artesanal
                 </span>
@@ -284,6 +301,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                 {/* Botón Añadir al Carrito */}
                 <div className="flex-1">
                   <Button
+                    id="add-to-cart-detail-btn"
                     onClick={(e) => handleAddToCart(e)}
                     variant="primary"
                     size="lg"

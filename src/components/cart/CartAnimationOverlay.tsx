@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useRef } from "react";
 import { CartAnimationDetail } from "@/lib/cartAnimation";
@@ -21,6 +21,7 @@ interface FlowerParticle {
   rotation: number;
   rotSpeed: number;
   opacity: number;
+  age: number;
 }
 
 interface CheckmarkBadge {
@@ -49,15 +50,15 @@ export default function CartAnimationOverlay() {
         targetX = rect.left + rect.width / 2;
         targetY = rect.top + rect.height / 2;
 
-        // Apply bounce to cart button upon arrival
+        // Apply bounce to cart button upon arrival (~930ms)
         setTimeout(() => {
           cartBtn.classList.remove("cart-bounce-pulse");
           void cartBtn.offsetWidth; // trigger reflow
           cartBtn.classList.add("cart-bounce-pulse");
           setTimeout(() => {
             cartBtn.classList.remove("cart-bounce-pulse");
-          }, 800);
-        }, 550);
+          }, 600);
+        }, 930);
       }
 
       const id = Date.now() + Math.random();
@@ -71,7 +72,7 @@ export default function CartAnimationOverlay() {
 
       setFlyingCacti((prev) => [...prev, newCactus]);
 
-      // At 550ms: cactus lands in cart. Trigger checkmark and flower particles
+      // At 950ms: cactus lands in cart. Trigger checkmark and flower particles
       setTimeout(() => {
         // Remove this cactus from flying state
         setFlyingCacti((prev) => prev.filter((c) => c.id !== id));
@@ -84,11 +85,11 @@ export default function CartAnimationOverlay() {
         ]);
         setTimeout(() => {
           setCheckmarks((prev) => prev.filter((m) => m.id !== checkId));
-        }, 850);
+        }, 1100);
 
-        // Spawn pink cactus flower confetti particles
+        // Spawn pink cactus flower confetti particles (original arc & size, extended screen time)
         spawnFlowerConfetti(targetX, targetY);
-      }, 580);
+      }, 950);
     };
 
     window.addEventListener("ixchel:add-to-cart", handleAddToCartEvent);
@@ -97,13 +98,13 @@ export default function CartAnimationOverlay() {
     };
   }, []);
 
-  // Spawn flower confetti particles using physics model from reference
+  // Spawn flower confetti particles: original confetti burst arc and original size
   const spawnFlowerConfetti = (originX: number, originY: number) => {
     const quantity = 8;
     const newParticles: FlowerParticle[] = [];
 
     for (let i = 0; i < quantity; i++) {
-      // Angles spreading downwards and outwards (-140 to -40 deg, or bursts from cart)
+      // Angles spreading upwards and outwards (-135 to -45 deg, confetti explosion from cart)
       const angleDeg = -135 + Math.random() * 90;
       const angleRad = (angleDeg * Math.PI) / 180;
       const speed = 70 + Math.random() * 50;
@@ -118,6 +119,7 @@ export default function CartAnimationOverlay() {
         rotation: Math.random() * 360,
         rotSpeed: (Math.random() - 0.5) * 8,
         opacity: 1,
+        age: 0,
       });
     }
 
@@ -131,7 +133,7 @@ export default function CartAnimationOverlay() {
 
   const animateParticles = () => {
     let active = false;
-    const gravity = 0.12;
+    const gravity = 0.12; // Original gravity
 
     particlesRef.current = particlesRef.current
       .map((p) => {
@@ -139,7 +141,14 @@ export default function CartAnimationOverlay() {
         const nextX = p.x + p.vx;
         const nextY = p.y + nextVy;
         const nextRot = p.rotation + p.rotSpeed;
-        const nextOpacity = p.opacity - 0.025;
+        const nextAge = p.age + 1;
+
+        // Mantener opacas/visibles durante el arco ascendente y la caída (~38 fotogramas),
+        // y después desvanecer gradualmente
+        let nextOpacity = p.opacity;
+        if (nextAge > 38) {
+          nextOpacity = p.opacity - 0.025;
+        }
 
         if (nextOpacity > 0) {
           active = true;
@@ -150,6 +159,7 @@ export default function CartAnimationOverlay() {
             vy: nextVy,
             rotation: nextRot,
             opacity: nextOpacity,
+            age: nextAge,
           };
         }
         return null;
@@ -186,7 +196,7 @@ export default function CartAnimationOverlay() {
                 "--dx": `${dx}px`,
                 "--dy": `${dy}px`,
                 transform: `translate3d(${cactus.startX}px, ${cactus.startY}px, 0)`,
-                animation: "flyToCartArc 580ms cubic-bezier(0.2, 0.7, 0.35, 1) forwards",
+                animation: "flyToCartArc 950ms cubic-bezier(0.2, 0.7, 0.35, 1) forwards",
               } as React.CSSProperties
             }
           >

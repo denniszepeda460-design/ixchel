@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Product } from "@/data/products";
+import { Product, getDiscountPercentage } from "@/data/products";
 import { formatPrice } from "@/config/site";
 import { useCartStore } from "@/store/cartStore";
 import Badge from "@/components/ui/Badge";
@@ -18,6 +18,7 @@ interface ProductCardProps {
 export default function ProductCard({ product, className = "" }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
   const [justAdded, setJustAdded] = useState(false);
+  const discount = getDiscountPercentage(product);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
     addItem(product, 1);
     triggerCartAnimation(e);
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1400);
+    setTimeout(() => setJustAdded(false), 2200);
   };
 
   return (
@@ -45,14 +46,19 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
-        {/* Badge flotante artesanal */}
-        {product.badge && (
-          <div className="absolute top-3 left-3 z-10">
+        {/* Badges flotantes (Descuento y Distintivo de Estudio) */}
+        <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
+          {product.onSale && discount && (
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-terracotta text-white shadow-xs font-sans tracking-tight">
+              -{discount}%
+            </span>
+          )}
+          {product.badge && (
             <Badge variant="terracotta" className="bg-white/95 backdrop-blur-sm shadow-xs">
               {product.badge}
             </Badge>
-          </div>
-        )}
+          )}
+        </div>
         {/* Etiqueta de tamaño */}
         <div className="absolute bottom-3 right-3 z-10">
           <span className="text-[11px] font-sans font-medium px-2 py-0.5 rounded-md bg-tierra/70 text-crema backdrop-blur-xs">
@@ -90,9 +96,16 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
             <span className="text-[10px] uppercase tracking-wider text-tierra-light">
               Precio
             </span>
-            <span className="text-xl font-bold text-terracotta font-sans">
-              {formatPrice(product.price)}
-            </span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-xl font-bold text-terracotta font-sans">
+                {formatPrice(product.price)}
+              </span>
+              {product.onSale && product.regularPrice && (
+                <span className="text-xs text-tierra-light line-through font-normal">
+                  {formatPrice(product.regularPrice)}
+                </span>
+              )}
+            </div>
           </div>
 
           <button

@@ -67,6 +67,17 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/catalogo?ofertas=true"
+                  className="hover:text-terracotta-light transition-colors inline-flex items-center gap-1.5"
+                >
+                  <span>Macetas en Liquidación</span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-terracotta text-white leading-tight">
+                    Oferta
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/historia"
                   className="hover:text-terracotta-light transition-colors"
                 >

@@ -31,8 +31,16 @@ export interface Product {
   badge?: string;
   featured: boolean;
   inStock: boolean;
+  onSale?: boolean;
+  regularPrice?: number;
+  salePrice?: number;
   craftProcess: string;
   plantCare: PlantCare;
+}
+
+export function getDiscountPercentage(product: Product): number | null {
+  if (!product.onSale || !product.regularPrice || !product.salePrice) return null;
+  return Math.round(((product.regularPrice - product.salePrice) / product.regularPrice) * 100);
 }
 
 export const products: Product[] = [
@@ -157,6 +165,9 @@ export const products: Product[] = [
     description:
       "Diseñada con una textura en relieve que recuerda las cestas tradicionales. Su cuerpo resistente sostiene con firmeza plantas medianas, brindando una estética acogedora y serena.",
     price: 4.0,
+    regularPrice: 5.33,
+    salePrice: 4.0,
+    onSale: true,
     dimensions: {
       height: "12.0 cm",
       diameter: "13.5 cm",

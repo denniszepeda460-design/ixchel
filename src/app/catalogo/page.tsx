@@ -5,18 +5,26 @@ import { useSearchParams } from "next/navigation";
 import { products } from "@/data/products";
 import ProductCard from "@/components/product/ProductCard";
 import OrganicPattern from "@/components/ui/OrganicPattern";
-import { Funnel, Sparkle, CaretDown } from "@phosphor-icons/react";
+import { Funnel, Sparkle, CaretDown, Tag } from "@phosphor-icons/react";
 
 function CatalogContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("tamano") || searchParams.get("filtro") || "todas";
   const initialFinish = searchParams.get("acabado") || "todos";
+  const initialSale = searchParams.get("ofertas") === "true" || searchParams.get("liquidacion") === "true";
 
   const [selectedSize, setSelectedSize] = useState<string>(initialCategory);
   const [selectedFinish, setSelectedFinish] = useState<string>(initialFinish);
+  const [onlySale, setOnlySale] = useState<boolean>(initialSale);
   const [selectedColors, setSelectedColors] = useState<string[]>(["Todos"]);
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
   const [sortBy, setSortBy] = useState<string>("destacados");
+
+  useEffect(() => {
+    if (searchParams.get("ofertas") === "true" || searchParams.get("liquidacion") === "true") {
+      setOnlySale(true);
+    }
+  }, [searchParams]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -106,8 +114,9 @@ function CatalogContent() {
         isAllColorsSelected || activeIndividualColors.length === 0
           ? true
           : p.colors?.some((c) => activeIndividualColors.includes(c));
+      const matchSale = onlySale ? Boolean(p.onSale) : true;
 
-      return matchSize && matchFinish && matchColors;
+      return matchSize && matchFinish && matchColors && matchSale;
     });
 
     if (sortBy === "precio-asc") {
@@ -119,17 +128,19 @@ function CatalogContent() {
     }
 
     return result;
-  }, [selectedSize, selectedFinish, isAllColorsSelected, activeIndividualColors, sortBy]);
+  }, [selectedSize, selectedFinish, isAllColorsSelected, activeIndividualColors, onlySale, sortBy]);
 
   const resetFilters = () => {
     setSelectedSize("todas");
     setSelectedFinish("todos");
     setSelectedColors(["Todos"]);
+    setOnlySale(false);
   };
 
   const hasActiveFilters =
     selectedSize !== "todas" ||
     selectedFinish !== "todos" ||
+    onlySale ||
     (!isAllColorsSelected && activeIndividualColors.length > 0);
 
   return (
@@ -376,6 +387,24 @@ function CatalogContent() {
                     </div>
                   )}
                 </div>
+
+                {/* Botón Filtro En Liquidación */}
+                <button
+                  type="button"
+                  onClick={() => setOnlySale(!onlySale)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 inline-flex items-center gap-1.5 ${
+                    onlySale
+                      ? "bg-terracotta text-white shadow-2xs"
+                      : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
+                  }`}
+                  aria-pressed={onlySale}
+                >
+                  <Tag size={13} weight={onlySale ? "fill" : "bold"} />
+                  <span>En Liquidación</span>
+                  {onlySale && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  )}
+                </button>
               </div>
             </div>
 
