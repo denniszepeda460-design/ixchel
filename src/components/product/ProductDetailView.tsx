@@ -22,6 +22,7 @@ import {
   CaretRight,
   Sparkle,
 } from "@phosphor-icons/react";
+import { triggerCartAnimation } from "@/lib/cartAnimation";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -37,8 +38,9 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const [justAdded, setJustAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e?: React.MouseEvent) => {
     addItem(product, quantity, selectedColor);
+    if (e) triggerCartAnimation(e);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1500);
   };
@@ -47,7 +49,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
     .filter((p) => p.id !== product.id)
     .slice(0, 3);
 
-  const whatsappInquiryMessage = `¡Hola Ixchel! 🌿 Estoy interesado en la *${product.name}* (Color: ${selectedColor}, ${formatPrice(product.price)}). ¿Tienen disponibilidad inmediata para entrega?`;
+  const whatsappInquiryMessage = `¡Hola Ixchel! \u{1F335} Estoy interesado en la *${product.name}* (Color: ${selectedColor}, ${formatPrice(product.price)}). ¿Tienen disponibilidad inmediata para entrega?`;
 
   return (
     <div className="min-h-screen bg-crema pb-24">
@@ -282,7 +284,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                 {/* Botón Añadir al Carrito */}
                 <div className="flex-1">
                   <Button
-                    onClick={handleAddToCart}
+                    onClick={(e) => handleAddToCart(e)}
                     variant="primary"
                     size="lg"
                     fullWidth
@@ -295,7 +297,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                     }
                   >
                     {justAdded
-                      ? "¡Agregada al carrito!"
+                      ? "¡Agregado al carrito!"
                       : `Agregar al Carrito • ${formatPrice(product.price * quantity)}`}
                   </Button>
                 </div>

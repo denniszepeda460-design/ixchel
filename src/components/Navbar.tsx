@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/ui/Logo";
@@ -11,8 +11,12 @@ import { siteConfig } from "@/config/site";
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { openCart, getTotalItems } = useCartStore();
+  const { openCart, getTotalItems, checkExpiration } = useCartStore();
   const totalItems = getTotalItems();
+
+  useEffect(() => {
+    checkExpiration();
+  }, [checkExpiration]);
 
   const navLinks = [
     { href: "/", label: "Inicio" },
@@ -68,6 +72,7 @@ export default function Navbar() {
 
           {/* Botón de Carrito con Contador */}
           <button
+            id="navbar-cart-button"
             onClick={openCart}
             className="relative p-2.5 text-tierra hover:text-terracotta hover:bg-crema-tint/80 rounded-full transition-all cursor-pointer active:scale-95"
             aria-label={`Abrir carrito con ${totalItems} productos`}

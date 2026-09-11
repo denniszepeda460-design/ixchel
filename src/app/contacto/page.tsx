@@ -236,7 +236,7 @@ export default function ContactoPage() {
                   fullWidth
                   leftIcon={<WhatsappLogo size={22} weight="fill" />}
                 >
-                  Abrir Chat de WhatsApp ({siteConfig.whatsapp.display})
+                  Abrir Chat de WhatsApp
                 </Button>
               </div>
 

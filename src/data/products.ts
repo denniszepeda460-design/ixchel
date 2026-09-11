@@ -260,13 +260,13 @@ export const products: Product[] = [
   },
   {
     id: "ixchel-pata-de-gato",
-    slug: "maceta-pata-de-gato",
-    name: "Maceta Huella de Gato",
-    subtitle: "Dedicada a los amantes de los felinos y la vida verde",
+    slug: "florero-pata-de-gato",
+    name: "Florero Huella de Gato",
+    subtitle: "Dedicado a los amantes de los felinos y los arreglos delicados",
     shortDescription:
-      "Maceta artesanal con relieve de huellita de gato, tierna y funcional para plantas pequeñas.",
+      "Florero artesanal con relieve de huellita de gato, tierno y funcional para ramitas, flores secas o pequeños tallos.",
     description:
-      "Creada para celebrar el vínculo entre nuestros amigos de cuatro patas y el amor por las plantas. Su relieve en forma de huella felina destaca sobre el cuerpo sólido y curado al sol.",
+      "Florero creado para celebrar el vínculo entre nuestros amigos de cuatro patas y la naturaleza. Su relieve en forma de huella felina destaca sobre el cuerpo sólido y curado al sol, perfecto para ramitas o flores secas.",
     price: 3.5,
     dimensions: {
       height: "8.0 cm",
@@ -278,21 +278,21 @@ export const products: Product[] = [
     finishLabel: "Edición de Color",
     colors: ["Blanco Base", "Café", "Rojo", "Azul"],
     sizeCategory: "pequena",
-    sizeLabel: "Pequeña (10.5 cm)",
-    drainage: "Orificio de drenaje en la base para riego seguro y sin estancamiento.",
+    sizeLabel: "Pequeño (10.5 cm)",
+    drainage: "Cuerpo sellado ideal para flores secas, ramitas aromáticas o pequeños tallos.",
     includesSaucer: false,
     images: ["/images/pata-de-gato.png"],
     badge: "Colección Mascotas",
     featured: false,
     inStock: true,
     craftProcess:
-      "Curada al sol y terminada con detalle artesanal en nuestro estudio familiar en La Libertad.",
+      "Curado al sol y terminado con detalle artesanal en nuestro estudio familiar en La Libertad.",
     plantCare: {
-      recommendedSpecies: "Cactus no espinosos, Calathea pequeña o Peperomia obtusifolia",
-      light: "Luz abundante indirecta.",
-      watering: "Regar cuando los primeros 2 cm de tierra se sientan secos.",
-      substrate: "Sustrato fértil aireado con perlita.",
-      careTip: "Verifica que la planta que elijas sea pet-friendly si convives con gatitos curiosos.",
+      recommendedSpecies: "Flores secas, ramitas de eucalipto, lavanda o pequeños tallos",
+      light: "Ubicación decorativa en interiores con luz natural.",
+      watering: "Apto para arreglos secos o pequeños esquejes.",
+      substrate: "No requiere sustrato pesado; ideal con flores decorativas.",
+      careTip: "Un detalle adorable y único para embellecer escritorios, repisas o mesas de noche.",
     },
   },
   {
@@ -372,7 +372,12 @@ export const products: Product[] = [
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
+  return products.find(
+    (p) =>
+      p.slug === slug ||
+      (slug === "maceta-pata-de-gato" && p.slug === "florero-pata-de-gato") ||
+      (slug === "florero-pata-de-gato" && p.slug === "maceta-pata-de-gato")
+  );
 }
 
 export function getFeaturedProducts(): Product[] {

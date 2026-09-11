@@ -9,9 +9,12 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+  return [
+    ...products.map((product) => ({
+      slug: product.slug,
+    })),
+    { slug: "maceta-pata-de-gato" },
+  ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

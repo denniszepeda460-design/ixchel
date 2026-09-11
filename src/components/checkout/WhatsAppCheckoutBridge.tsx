@@ -65,15 +65,15 @@ export default function WhatsAppCheckoutBridge({
       )
       .join("\n");
 
-    const message = `🌿 *¡Hola Ixchel!*
+    const message = `\u{1F335} *¡Hola Ixchel!*
 Me gustaría realizar el siguiente pedido de macetas artesanales:
 
-📦 *DETALLE DEL PEDIDO:*
+\u{1F4E6} *DETALLE DEL PEDIDO:*
 ${productLines}
 
-💰 *TOTAL ESTIMADO:* ${formatPrice(subtotal)}
+\u{1F4B0} *TOTAL ESTIMADO:* ${formatPrice(subtotal)}
 
-📍 *DATOS PARA LA ENTREGA:*
+\u{1F4CD} *DATOS PARA LA ENTREGA:*
 • *Nombre:* ${customer.name}
 • *Teléfono de contacto:* ${customer.phone}
 • *Ciudad / Zona:* ${customer.city}
@@ -214,7 +214,7 @@ ${productLines}
             <input
               id="customer-phone"
               type="tel"
-              placeholder="Ej. +503 6110-0352"
+              placeholder="Ej. 0000 0000"
               value={customer.phone}
               onChange={(e) =>
                 setCustomer({ ...customer, phone: e.target.value })

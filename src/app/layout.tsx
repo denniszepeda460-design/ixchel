@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
+import CartAnimationOverlay from "@/components/cart/CartAnimationOverlay";
 import { siteConfig } from "@/config/site";
 
 const caveat = Caveat({
@@ -79,6 +80,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <CartDrawer />
+        <CartAnimationOverlay />
       </body>
     </html>
   );

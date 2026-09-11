@@ -38,7 +38,7 @@ export const siteConfig: SiteConfig = {
     number: "50361100352",
     display: "+503 6110-0352",
     altDisplay: "+503 7726-9934",
-    greeting: "¡Hola Ixchel! 🌿 Estoy visitando su sitio web y me gustaría hacerles una consulta sobre sus macetas artesanales.",
+    greeting: "¡Hola Ixchel! \u{1F335} Estoy visitando su sitio web y me gustaría hacerles una consulta sobre sus piezas artesanales.",
   },
   currency: {
     code: "USD",

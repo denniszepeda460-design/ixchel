@@ -8,6 +8,7 @@ import { formatPrice } from "@/config/site";
 import { useCartStore } from "@/store/cartStore";
 import Badge from "@/components/ui/Badge";
 import { ShoppingBag, Check } from "@phosphor-icons/react";
+import { triggerCartAnimation } from "@/lib/cartAnimation";
 
 interface ProductCardProps {
   product: Product;
@@ -22,6 +23,7 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
     e.preventDefault();
     e.stopPropagation();
     addItem(product, 1);
+    triggerCartAnimation(e);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1400);
   };
@@ -38,7 +40,7 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
       >
         <Image
           src={product.images[0]}
-          alt={`${product.name} — maceta artesanal Ixchel`}
+          alt={`${product.name} — pieza artesanal Ixchel`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"

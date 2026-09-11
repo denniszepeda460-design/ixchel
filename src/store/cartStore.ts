@@ -11,6 +11,7 @@ export interface CartItem {
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
+  lastUpdated: number | null;
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
@@ -18,21 +19,36 @@ interface CartState {
   removeItem: (productId: string, color?: string) => void;
   updateQuantity: (productId: string, quantity: number, color?: string) => void;
   clearCart: () => void;
+  checkExpiration: () => void;
   getTotalItems: () => number;
   getSubtotal: () => number;
 }
+
+const FORTY_EIGHT_HOURS_MS = 48 * 60 * 60 * 1000;
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
       isOpen: false,
+      lastUpdated: null,
 
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
       toggleCart: () => set((state) => ({ isOpen: !state.isOpen })),
 
+      checkExpiration: () => {
+        const { lastUpdated, items } = get();
+        if (items.length > 0 && lastUpdated) {
+          if (Date.now() - lastUpdated >= FORTY_EIGHT_HOURS_MS) {
+            set({ items: [], lastUpdated: null });
+          }
+        }
+      },
+
       addItem: (product, quantity = 1, color) => {
+        // Al agregar al carrito NO se abre el panel lateral automáticamente
+        const now = Date.now();
         set((state) => {
           const existing = state.items.find(
             (i) => i.product.id === product.id && i.selectedColor === color
@@ -44,22 +60,26 @@ export const useCartStore = create<CartState>()(
                   ? { ...i, quantity: i.quantity + quantity }
                   : i
               ),
-              isOpen: true,
+              lastUpdated: now,
             };
           }
           return {
             items: [...state.items, { product, quantity, selectedColor: color }],
-            isOpen: true,
+            lastUpdated: now,
           };
         });
       },
 
       removeItem: (productId, color) => {
-        set((state) => ({
-          items: state.items.filter(
+        set((state) => {
+          const remaining = state.items.filter(
             (i) => !(i.product.id === productId && i.selectedColor === color)
-          ),
-        }));
+          );
+          return {
+            items: remaining,
+            lastUpdated: remaining.length > 0 ? Date.now() : null,
+          };
+        });
       },
 
       updateQuantity: (productId, quantity, color) => {
@@ -73,10 +93,11 @@ export const useCartStore = create<CartState>()(
               ? { ...i, quantity }
               : i
           ),
+          lastUpdated: Date.now(),
         }));
       },
 
-      clearCart: () => set({ items: [] }),
+      clearCart: () => set({ items: [], lastUpdated: null }),
 
       getTotalItems: () => {
         return get().items.reduce((sum, item) => sum + item.quantity, 0);
@@ -94,7 +115,15 @@ export const useCartStore = create<CartState>()(
       storage: createJSONStorage(() =>
         typeof window !== "undefined" ? window.localStorage : ({} as any)
       ),
-      partialize: (state) => ({ items: state.items }),
+      partialize: (state) => ({
+        items: state.items,
+        lastUpdated: state.lastUpdated,
+      }),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.checkExpiration();
+        }
+      },
     }
   )
 );
