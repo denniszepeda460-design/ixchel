@@ -23,7 +23,7 @@ const nunito = Nunito({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ixchel.artesanal"),
-  title: "Ixchel — Macetas de familia, inspiradas en nuestras raíces",
+  title: "Ixchel, Macetas de familia, inspiradas en nuestras raíces",
   description: "Macetas artesanales pensadas para el bienestar de tus plantas.",
   keywords: [
     "macetas artesanales",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     apple: "/images/logo principal-solo-icono.png",
   },
   openGraph: {
-    title: "Ixchel — Macetas de familia, inspiradas en nuestras raíces",
+    title: "Ixchel, Macetas de familia, inspiradas en nuestras raíces",
     description: "Macetas artesanales pensadas para el bienestar de tus plantas.",
     url: "https://ixchel.artesanal",
     siteName: "ixchel",

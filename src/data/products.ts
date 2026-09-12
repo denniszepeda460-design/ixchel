@@ -62,7 +62,7 @@ export const products: Product[] = [
       "Pieza artesanal inspirada en autos clásicos de época, con proporciones ideales para cactus y suculentas miniatura.",
     description:
       "Elaborada con esmero en nuestro estudio familiar. Su detallada silueta evoca los automóviles clásicos de colección, transformando cualquier repisa o rincón botánico en un espacio nostálgico y lleno de encanto.",
-    price: 1.5,
+    price: 3.5,
     dimensions: {
       height: "4.9 cm (1.93 in)",
       diameter: "10.5 cm (4.13 in) de ancho",
@@ -269,52 +269,7 @@ export const products: Product[] = [
     },
   },
 
-  // 6. Maceta Bus Retro
-  {
-    id: "ixchel-bus-retro",
-    slug: "maceta-bus-retro",
-    name: "Maceta Bus Retro",
-    subtitle: "Autobús tradicional retro con capacidad extendida para arreglos",
-    shortDescription:
-      "Modelo de autobús retro con mayor longitud interior para composiciones de crasas y mini cactus.",
-    description:
-      "Diseño vintage que evoca los autobuses de ruta tradicionales. Su amplio cuerpo permite armar composiciones botánicas variadas combinando distintas especies y tonalidades verdes.",
-    price: 3.99,
-    dimensions: {
-      height: "6.4 cm (2.52 in)",
-      diameter: "10.9 cm (4.29 in) de ancho",
-      width: "10.9 cm (4.29 in)",
-      formatted: "10.9 x 6.4 cm (4.29 x 2.52 in)",
-      formattedSummary: "~10.9 x 6.4 cm",
-      isApproximate: true,
-      approximateNote:
-        "Medida aproximada basada en molde (10.9 x 6.4 cm). Foto referencial sujeta a confirmación de molde 1:1.",
-      capacity: "0.45 Litros",
-      weight: "380 g",
-    },
-    finish: "color",
-    finishLabel: "Edición de Color",
-    colors: ["Blanco Base", "Azul", "Rojo", "Café"],
-    sizeCategory: "mediana",
-    sizeLabel: "Mediana (~10.9 x 6.4 cm)",
-    drainage: "Drenaje funcional para evitar acumulación de agua.",
-    includesSaucer: false,
-    images: ["/images/bus.png"],
-    badge: "Revisión Manual",
-    featured: false,
-    inStock: true,
-    craftProcess:
-      "Vaciado en molde, curado natural al sol y detallado final a mano.",
-    plantCare: {
-      recommendedSpecies: "Arreglo combinado de crasas miniatura o Sansevieria enana",
-      light: "Luz brillante filtrada.",
-      watering: "Riego controlado cada 10 a 14 días.",
-      substrate: "Mezcla drenante con gravilla volcánica.",
-      careTip: "Combina dos tonos de verde para un contraste alegre.",
-    },
-  },
-
-  // 7. Florero Pata de Gato
+  // 6. Florero Pata de Gato
   {
     id: "ixchel-pata-de-gato",
     slug: "florero-pata-de-gato",
@@ -544,7 +499,8 @@ export function getProductBySlug(slug: string): Product | undefined {
       (slug === "maceta-carro" && p.slug === "maceta-auto-retro") ||
       (slug === "maceta-cesta" && p.slug === "combo-cestas-trenzadas") ||
       (slug === "maceta-corazon" && p.slug === "combo-cestas-trenzadas") ||
-      (slug === "maceta-bus" && p.slug === "maceta-bus-retro") ||
+      (slug === "maceta-bus" && p.slug === "maceta-carrito-van-retro") ||
+      (slug === "maceta-bus-retro" && p.slug === "maceta-carrito-van-retro") ||
       (slug === "maceta-vasija" && p.slug === "maceta-vasija-estilo-barro") ||
       (slug === "maceta-pata-de-gato" && p.slug === "florero-pata-de-gato")
   );

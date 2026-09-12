@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+      <defs>
+        <radialGradient id="g1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#92b594" />
+          <stop offset="70%" stop-color="#638466" />
+          <stop offset="100%" stop-color="#b86d52" />
+        </radialGradient>
+      </defs>
+      <g transform="translate(100, 110)">
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(0)" opacity="0.9" />
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(45)" opacity="0.9" />
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(90)" opacity="0.9" />
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(135)" opacity="0.9" />
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(180)" opacity="0.9" />
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(225)" opacity="0.9" />
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(270)" opacity="0.9" />
+        <path d="M0,-70 C25,-60 45,-30 35,0 C25,30 -25,30 -35,0 C-45,-30 -25,-60 0,-70 Z" fill="url(#g1)" transform="rotate(315)" opacity="0.9" />
+        <circle cx="0" cy="0" r="25" fill="#a8c7aa" />
+        <circle cx="0" cy="0" r="12" fill="#c2d9c4" />
+        <circle cx="0" cy="0" r="5" fill="#e0ede2" />
+      </g>
+    </svg>

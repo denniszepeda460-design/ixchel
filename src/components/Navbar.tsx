@@ -21,7 +21,7 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: "Inicio" },
     { href: "/catalogo", label: "Catálogo" },
-    { href: "/historia", label: "Nuestra Historia" },
+    { href: "/encuentra-su-hogar", label: "Encuentra su Hogar" },
     { href: "/contacto", label: "Contacto" },
   ];
 

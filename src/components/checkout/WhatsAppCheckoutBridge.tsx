@@ -10,6 +10,10 @@ import {
   PaperPlaneTilt,
   LockSimple,
   ShieldCheck,
+  MapPin,
+  Truck,
+  WarningCircle,
+  PottedPlant,
 } from "@phosphor-icons/react";
 import confetti from "canvas-confetti";
 
@@ -40,17 +44,24 @@ export default function WhatsAppCheckoutBridge({
     notes: "",
   });
 
+  const [deliveryMode, setDeliveryMode] = useState<"pickup" | "delivery">("pickup");
   const [errors, setErrors] = useState<Partial<CustomerDetails>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSent, setOrderSent] = useState(false);
   const [generatedWhatsAppUrl, setGeneratedWhatsAppUrl] = useState("");
+
+  const hasPlantCombo = items.some(
+    (item) =>
+      item.product.id.startsWith("combo-") ||
+      item.product.name.toLowerCase().includes("combo")
+  );
 
   const validate = () => {
     const errs: Partial<CustomerDetails> = {};
     if (!customer.name.trim()) errs.name = "Por favor ingresa tu nombre completo";
     if (!customer.phone.trim()) errs.phone = "Por favor ingresa un número de teléfono o WhatsApp";
     if (!customer.city.trim()) errs.city = "Por favor especifica tu ciudad, departamento o zona";
-    if (!customer.address.trim()) errs.address = "Por favor ingresa tu dirección de entrega aproximada";
+    if (!customer.address.trim()) errs.address = "Por favor ingresa tu dirección o punto de entrega preferido";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -65,19 +76,30 @@ export default function WhatsAppCheckoutBridge({
       )
       .join("\n");
 
-    const message = `\u{1F335} *¡Hola Ixchel!*
-Me gustaría realizar el siguiente pedido de macetas artesanales:
+    const deliveryText =
+      deliveryMode === "pickup"
+        ? "Punto de encuentro (recomendado)"
+        : "Envío a domicilio (sin responsabilidad de Ixchel sobre la planta)";
 
-\u{1F4E6} *DETALLE DEL PEDIDO:*
+    const disclaimerText =
+      hasPlantCombo && deliveryMode === "delivery"
+        ? "\n• *Aviso botánico:* El cliente asume la responsabilidad del estado de la planta viva durante el trayecto a domicilio."
+        : "";
+
+    const message = `🌵 *¡Hola Ixchel!*
+Me gustaría realizar el siguiente pedido de macetas y piezas artesanales:
+
+📦 *DETALLE DEL PEDIDO:*
 ${productLines}
 
-\u{1F4B0} *TOTAL ESTIMADO:* ${formatPrice(subtotal)}
+💰 *TOTAL ESTIMADO:* ${formatPrice(subtotal)}
 
-\u{1F4CD} *DATOS PARA LA ENTREGA:*
+📍 *DATOS PARA LA ENTREGA:*
+• *Modalidad de entrega:* ${deliveryText}${disclaimerText}
 • *Nombre:* ${customer.name}
 • *Teléfono de contacto:* ${customer.phone}
 • *Ciudad / Zona:* ${customer.city}
-• *Dirección:* ${customer.address}${
+• *Dirección / Referencia:* ${customer.address}${
       customer.notes ? `\n• *Notas especiales:* ${customer.notes}` : ""
     }
 
@@ -166,11 +188,100 @@ ${productLines}
 
   return (
     <form onSubmit={handleSubmitOrder} className="space-y-6">
+      {/* Aviso de Entrega para Combos con Planta */}
+      {hasPlantCombo && (
+        <div className="p-5 rounded-2xl bg-luna/15 border-2 border-luna/40 text-tierra space-y-2">
+          <div className="flex items-center gap-2 text-terracotta font-sans font-bold text-sm">
+            <PottedPlant size={20} weight="fill" />
+            <span>Nota Importante sobre Combos con Planta Viva</span>
+          </div>
+          <p className="text-xs text-tierra-muted leading-relaxed">
+            Por defecto, los combos con planta se coordinan en un punto de encuentro para
+            revisar que todo llegue en buen estado. Si prefieres envío a domicilio, puedes
+            seleccionarlo, entendiendo que Ixchel no se hace responsable por el estado de la
+            planta durante el trayecto.
+          </p>
+        </div>
+      )}
+
+      {/* Selector de Modalidad de Entrega */}
+      <div className="p-6 rounded-2xl bg-blanco-artesanal border border-crema-dark/70 shadow-xs space-y-4">
+        <div className="flex items-center gap-2 border-b border-crema-dark/50 pb-3">
+          <div className="w-7 h-7 rounded-full bg-salvia/15 text-salvia-dark flex items-center justify-center text-xs font-bold">
+            1
+          </div>
+          <h3 className="font-sans font-bold text-base text-tierra">
+            Modalidad de Entrega
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => setDeliveryMode("pickup")}
+            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between ${
+              deliveryMode === "pickup"
+                ? "border-salvia-dark bg-salvia/10 shadow-xs"
+                : "border-crema-dark bg-crema-tint/20 hover:border-salvia/40"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <MapPin
+                  size={20}
+                  weight="fill"
+                  className={deliveryMode === "pickup" ? "text-salvia-dark" : "text-tierra-muted"}
+                />
+                <span className="font-sans font-bold text-sm text-tierra">
+                  Punto de encuentro
+                </span>
+              </div>
+              <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-salvia text-white">
+                Recomendado
+              </span>
+            </div>
+            <p className="text-xs text-tierra-muted leading-relaxed">
+              Coordinamos un punto céntrico y seguro en El Salvador para revisar juntos tus piezas y plantas en perfecto estado.
+            </p>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setDeliveryMode("delivery")}
+            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between ${
+              deliveryMode === "delivery"
+                ? "border-terracotta bg-terracotta/10 shadow-xs"
+                : "border-crema-dark bg-crema-tint/20 hover:border-terracotta/40"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <Truck
+                  size={20}
+                  weight="fill"
+                  className={deliveryMode === "delivery" ? "text-terracotta" : "text-tierra-muted"}
+                />
+                <span className="font-sans font-bold text-sm text-tierra">
+                  Envío a domicilio
+                </span>
+              </div>
+            </div>
+            <p className="text-xs text-tierra-muted leading-relaxed">
+              Servicio de mensajería directo. {hasPlantCombo && (
+                <span className="font-semibold text-terracotta block pt-1">
+                  (Sin responsabilidad de Ixchel sobre la planta durante el traslado).
+                </span>
+              )}
+            </p>
+          </button>
+        </div>
+      </div>
+
       {/* Información del Cliente */}
       <div className="p-6 rounded-2xl bg-blanco-artesanal border border-crema-dark/70 shadow-xs space-y-4">
         <div className="flex items-center gap-2 border-b border-crema-dark/50 pb-3">
           <div className="w-7 h-7 rounded-full bg-terracotta/15 text-terracotta flex items-center justify-center text-xs font-bold">
-            1
+            2
           </div>
           <h3 className="font-sans font-bold text-base text-tierra">
             Tus Datos de Contacto
@@ -232,14 +343,14 @@ ${productLines}
         </div>
       </div>
 
-      {/* Dirección de Entrega */}
+      {/* Dirección / Lugar de Entrega */}
       <div className="p-6 rounded-2xl bg-blanco-artesanal border border-crema-dark/70 shadow-xs space-y-4">
         <div className="flex items-center gap-2 border-b border-crema-dark/50 pb-3">
-          <div className="w-7 h-7 rounded-full bg-salvia/15 text-salvia-dark flex items-center justify-center text-xs font-bold">
-            2
+          <div className="w-7 h-7 rounded-full bg-luna/25 text-tierra flex items-center justify-center text-xs font-bold">
+            3
           </div>
           <h3 className="font-sans font-bold text-base text-tierra">
-            Lugar de Entrega
+            {deliveryMode === "pickup" ? "Punto de Encuentro Deseado" : "Dirección de Entrega"}
           </h3>
         </div>
 
@@ -275,12 +386,18 @@ ${productLines}
               htmlFor="customer-address"
               className="block text-xs font-bold text-tierra"
             >
-              Dirección o Punto de Referencia *
+              {deliveryMode === "pickup"
+                ? "Punto de encuentro sugerido o referencia *"
+                : "Dirección exacta o punto de referencia *"}
             </label>
             <input
               id="customer-address"
               type="text"
-              placeholder="Ej. Colonia Las Rosas, Casa #12, frente al parque"
+              placeholder={
+                deliveryMode === "pickup"
+                  ? "Ej. C.C. Multiplaza, Plaza Merliot, La Gran Vía, etc."
+                  : "Ej. Colonia Las Rosas, Calle Los Pinos #12, frente al parque"
+              }
               value={customer.address}
               onChange={(e) =>
                 setCustomer({ ...customer, address: e.target.value })
