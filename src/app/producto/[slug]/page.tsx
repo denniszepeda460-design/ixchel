@@ -9,11 +9,21 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  const legacySlugs = [
+    "maceta-casita",
+    "maceta-concha",
+    "maceta-carro",
+    "maceta-cesta",
+    "maceta-corazon",
+    "maceta-bus",
+    "maceta-vasija",
+    "maceta-pata-de-gato",
+  ];
   return [
     ...products.map((product) => ({
       slug: product.slug,
     })),
-    { slug: "maceta-pata-de-gato" },
+    ...legacySlugs.map((slug) => ({ slug })),
   ];
 }
 

@@ -185,42 +185,67 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
             </div>
 
             {/* Dimensiones y Drenaje */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
-                <span className="text-[10px] uppercase font-bold text-tierra-light block">
-                  Altura
-                </span>
-                <span className="text-sm font-bold text-tierra">
-                  {product.dimensions.height}
-                </span>
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
+                  <span className="text-[10px] uppercase font-bold text-tierra-light block">
+                    Medidas (Ancho x Alto)
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-tierra block truncate" title={product.dimensions.formatted}>
+                    {product.dimensions.formattedSummary || product.dimensions.formatted}
+                  </span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
+                  <span className="text-[10px] uppercase font-bold text-tierra-light block">
+                    Tipo de Medida
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-salvia-dark">
+                    {product.dimensions.isApproximate ? "Aprox. (Molde)" : "Terminado"}
+                  </span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
+                  <span className="text-[10px] uppercase font-bold text-tierra-light block">
+                    Drenaje
+                  </span>
+                  <span className="text-sm font-bold text-salvia-dark">
+                    {product.drainage.toLowerCase().includes("sin") ? "Decorativo" : "Incluido"}
+                  </span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
+                  <span className="text-[10px] uppercase font-bold text-tierra-light block">
+                    Plato
+                  </span>
+                  <span className="text-sm font-bold text-tierra">
+                    {product.includesSaucer ? "A juego" : "Opcional"}
+                  </span>
+                </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
-                <span className="text-[10px] uppercase font-bold text-tierra-light block">
-                  Diámetro
-                </span>
-                <span className="text-sm font-bold text-tierra">
-                  {product.dimensions.diameter}
-                </span>
+              {/* Fila con detalle completo y formato consistente Ancho x Alto (cm/in) */}
+              <div className="px-4 py-2.5 rounded-2xl bg-crema-tint/40 border border-crema-dark/50 text-xs text-tierra-muted flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                <div>
+                  <strong className="text-tierra font-bold">Medidas oficiales (cm/in):</strong>{" "}
+                  <span>{product.dimensions.formatted}</span>
+                </div>
+                {product.dimensions.isApproximate && (
+                  <span className="text-[11px] text-terracotta font-medium italic">
+                    * {product.dimensions.approximateNote || "Medida aproximada basada en molde."}
+                  </span>
+                )}
               </div>
 
-              <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
-                <span className="text-[10px] uppercase font-bold text-tierra-light block">
-                  Drenaje
-                </span>
-                <span className="text-sm font-bold text-salvia-dark">
-                  Incluido
-                </span>
-              </div>
-
-              <div className="p-3 rounded-xl bg-blanco-artesanal border border-crema-dark/50 text-center">
-                <span className="text-[10px] uppercase font-bold text-tierra-light block">
-                  Plato
-                </span>
-                <span className="text-sm font-bold text-tierra">
-                  {product.includesSaucer ? "A juego" : "Opcional"}
-                </span>
-              </div>
+              {/* Disclaimer especial si aplica (ej. Florero Pata de Gato) */}
+              {product.dimensions.disclaimer && (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-600/30 text-amber-900 text-xs flex items-start gap-2.5">
+                  <span className="font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider shrink-0">
+                    Aviso Importante
+                  </span>
+                  <span className="font-medium">{product.dimensions.disclaimer}</span>
+                </div>
+              )}
             </div>
 
             {/* Selector fijo: Ediciones de Color */}

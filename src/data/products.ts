@@ -6,6 +6,19 @@ export interface PlantCare {
   careTip: string;
 }
 
+export interface ProductDimensions {
+  height: string;
+  diameter: string;
+  width?: string;
+  formatted: string; // Formato consistente: "Ancho x Alto (cm/in)"
+  formattedSummary?: string;
+  isApproximate?: boolean;
+  approximateNote?: string;
+  disclaimer?: string;
+  capacity?: string;
+  weight?: string;
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -14,12 +27,7 @@ export interface Product {
   shortDescription: string;
   description: string;
   price: number;
-  dimensions: {
-    height: string;
-    diameter: string;
-    capacity?: string;
-    weight?: string;
-  };
+  dimensions: ProductDimensions;
   finish: "natural" | "color";
   finishLabel: string;
   colors: string[];
@@ -44,340 +52,484 @@ export function getDiscountPercentage(product: Product): number | null {
 }
 
 export const products: Product[] = [
+  // 1. Maceta Auto Retro (Vintage 1930s)
   {
-    id: "ixchel-casita",
-    slug: "maceta-casita",
-    name: "Maceta Casita",
-    subtitle: "Diseño arquitectónico artesanal para suculentas y cactus",
+    id: "ixchel-auto-retro",
+    slug: "maceta-auto-retro",
+    name: "Maceta Auto Retro",
+    subtitle: "Diseño temático clásico de auto vintage para mini suculentas",
     shortDescription:
-      "Maceta artesanal con orificio de drenaje funcional, pensada para cuidar las raíces de tus plantas.",
+      "Pieza artesanal inspirada en autos clásicos de época, con proporciones ideales para cactus y suculentas miniatura.",
     description:
-      "Elaborada cuidadosamente en nuestro estudio familiar. Su silueta en forma de casita aporta calidez a cualquier rincón botánico. Curada pacientemente al sol e inspirada en crear un auténtico hogar para tus plantas.",
-    price: 4.5,
+      "Elaborada con esmero en nuestro estudio familiar. Su detallada silueta evoca los automóviles clásicos de colección, transformando cualquier repisa o rincón botánico en un espacio nostálgico y lleno de encanto.",
+    price: 1.5,
     dimensions: {
-      height: "11.0 cm",
-      diameter: "10.0 cm",
-      capacity: "0.6 Litros",
-      weight: "450 g",
+      height: "4.9 cm (1.93 in)",
+      diameter: "10.5 cm (4.13 in) de ancho",
+      width: "10.5 cm (4.13 in)",
+      formatted: "10.5 x 4.9 cm (4.13 x 1.93 in)",
+      formattedSummary: "10.5 x 4.9 cm",
+      isApproximate: false,
+      capacity: "0.25 Litros",
+      weight: "220 g",
+    },
+    finish: "color",
+    finishLabel: "Edición de Color (Blanco, Café, Rojo, Azul)",
+    colors: ["Blanco Base", "Café", "Rojo", "Azul"],
+    sizeCategory: "pequena",
+    sizeLabel: "Pequeña (10.5 x 4.9 cm)",
+    drainage: "Orificio inferior calibrado para drenaje libre de agua.",
+    includesSaucer: false,
+    images: ["/images/carro.png"],
+    badge: "Diseño Retro",
+    featured: true,
+    inStock: true,
+    craftProcess:
+      "Moldeado minucioso de carrocería, perforación de drenaje y curado paciente al sol de La Libertad.",
+    plantCare: {
+      recommendedSpecies: "Mini cactus globulares, Lithops o Sedum miniatura",
+      light: "Luz solar indirecta brillante con algunas horas de resolana suave.",
+      watering: "Riego controlado con cuentagotas o boquilla fina cada 12 a 15 días.",
+      substrate: "Sustrato mineral poroso con gravilla fina y perlita.",
+      careTip: "Ubícalo en tu escritorio o vitrina como punto focal vintage.",
+    },
+  },
+
+  // 2. Combo Cestas Trenzadas (Grande + Pequeña)
+  {
+    id: "ixchel-combo-cestas",
+    slug: "combo-cestas-trenzadas",
+    name: "Combo Cestas Trenzadas (Grande + Pequeña)",
+    subtitle: "Set de dos piezas con textura entrelazada tradicional",
+    shortDescription:
+      "Dúo de macetas con relieve que emula el tejido artesanal de canasto en dos tamaños complementarios.",
+    description:
+      "Este juego incluye las dos piezas: una cesta grande tipo tazón y una cesta pequeña decorativa. Ambas presentan un detallado acabado trenzado que aporta calidez rústica tanto juntas como ubicadas en distintos espacios de tu hogar.",
+    price: 5.0,
+    dimensions: {
+      height: "Grande: 5.6 cm / Pequeña: 3.7 cm",
+      diameter: "Grande: 8.8 cm / Pequeña: 6.3 cm",
+      formatted: "Grande: 8.8 x 5.6 cm (3.46 x 2.2 in) · Pequeña: 6.3 x 3.7 cm (2.48 x 1.46 in)",
+      formattedSummary: "Set 2 piezas (~8.8 / 6.3 cm)",
+      isApproximate: true,
+      approximateNote:
+        "Medida aproximada basada en molde. El vertido y secado artesanal pueden generar variaciones milimétricas leves.",
+      capacity: "0.6 Litros (total combo)",
+      weight: "480 g",
+    },
+    finish: "natural",
+    finishLabel: "Acabado Texturizado Natural",
+    colors: ["Blanco Base", "Café"],
+    sizeCategory: "mediana",
+    sizeLabel: "Set Combo (2 piezas)",
+    drainage: "Drenaje funcional para suculentas o recipientes botánicos.",
+    includesSaucer: false,
+    images: ["/images/cestas.png"],
+    badge: "Combo 2 Piezas",
+    featured: true,
+    inStock: true,
+    craftProcess:
+      "Texturizado artesanal en molde, curado completo al sol en pareja y revisión minuciosa antes de empacar.",
+    plantCare: {
+      recommendedSpecies: "Pothos mini, Peperomias compactas, Echeveria",
+      light: "Luz suave filtrada o semisombra luminosa.",
+      watering: "Regar cuando el sustrato se sienta seco al tacto.",
+      substrate: "Mezcla universal enriquecida con fibra de coco.",
+      careTip: "Limpia la textura trenzada periódicamente con un pincel suave seco.",
+    },
+  },
+
+  // 3. Maceta Vasija Curva (Set L/S)
+  {
+    id: "ixchel-vasija-curva-set",
+    slug: "maceta-vasija-curva",
+    name: "Maceta Vasija Curva (Set L/S)",
+    subtitle: "Juego de dos vasijas redondas lisas con boca ondulada orgánica",
+    shortDescription:
+      "Dúo de vasijas de silueta abombada y curvas limpias, en dos tamaños L y S para arreglos escalonados.",
+    description:
+      "Conjunto de dos vasijas inspiradas en cuencos botánicos tradicionales. Su delicado borde ondulado acompaña el crecimiento de plantas colgantes o crasas, creando una composición armónica en repisas o mesas.",
+    price: 3.99,
+    dimensions: {
+      height: "Mold L: 6.3 cm / Mold S: 5.6 cm",
+      diameter: "Mold L: 9.6 cm / Mold S: 8.4 cm",
+      formatted: "Mold L: 9.6 x 6.3 cm (3.78 x 2.48 in) · Mold S: 8.4 x 5.6 cm (3.31 x 2.2 in)",
+      formattedSummary: "Set L/S (~9.6 / 8.4 cm)",
+      isApproximate: true,
+      approximateNote: "Medida aproximada basada en molde.",
+      capacity: "0.7 Litros (set)",
+      weight: "520 g",
     },
     finish: "natural",
     finishLabel: "Acabado Natural",
     colors: ["Blanco Base", "Café"],
+    sizeCategory: "mediana",
+    sizeLabel: "Set L/S",
+    drainage: "Orificio central inferior para flujo óptimo de riego.",
+    includesSaucer: false,
+    images: ["/images/vacija.png"],
+    badge: "Set de 2 Vasijas",
+    featured: true,
+    inStock: true,
+    craftProcess:
+      "Preparación de mezcla exacta, desmolde cuidadoso, curado al sol y revisión final.",
+    plantCare: {
+      recommendedSpecies: "String of Hearts, Pothos o mini Sansevieria",
+      light: "Luz natural indirecta.",
+      watering: "Riego profundo dejando drenar el exceso.",
+      substrate: "Mezcla drenante con perlita y tierra vegetal.",
+      careTip: "Permite que las ramas caigan suavemente sobre el borde ondulado.",
+    },
+  },
+
+  // 4. Maceta Vasija Estilo Barro Colgante
+  {
+    id: "ixchel-vasija-estilo-barro",
+    slug: "maceta-vasija-estilo-barro",
+    name: "Maceta Vasija Estilo Barro Colgante",
+    subtitle: "Textura de puntos y ondas en relieve inspirada en alfarería ancestral",
+    shortDescription:
+      "Vasija globular con relieves tradicionales ornamentales y cuello curvo, diseñada para lucir colgada o sobre repisa.",
+    description:
+      "Una pieza con personalidad que honra el legado de la alfarería. Sus grabados en ondas y esferas en relieve aportan volumen y riqueza táctil, mientras su forma globular resguarda la humedad equilibrada del sustrato.",
+    price: 3.99,
+    dimensions: {
+      height: "6.8 cm (2.68 in)",
+      diameter: "8.3 cm (3.27 in) de ancho",
+      width: "8.3 cm (3.27 in)",
+      formatted: "8.3 x 6.8 cm (3.27 x 2.68 in)",
+      formattedSummary: "~8.3 x 6.8 cm",
+      isApproximate: true,
+      approximateNote: "Medida aproximada basada en molde.",
+      capacity: "0.4 Litros",
+      weight: "340 g",
+    },
+    finish: "natural",
+    finishLabel: "Acabado Artesanal con Relieve",
+    colors: ["Blanco Base", "Café"],
+    sizeCategory: "colgante",
+    sizeLabel: "Colgante (~8.3 x 6.8 cm)",
+    drainage: "Orificio inferior funcional para prevenir encharcamientos.",
+    includesSaucer: false,
+    images: ["/images/vacija_2.png"],
+    badge: "Relieve Tradicional",
+    featured: false,
+    inStock: true,
+    craftProcess:
+      "Vaciado cuidadoso para preservar cada detalle en relieve y secado natural.",
+    plantCare: {
+      recommendedSpecies: "Ceropegia woodii, Sedum burrito o Fitonias",
+      light: "Luz brillante tamizada.",
+      watering: "Riego moderado cada 10 a 12 días.",
+      substrate: "Mezcla ligera y aireada.",
+      careTip: "Ideal para colgar cerca de una ventana o en un soporte macramé.",
+    },
+  },
+
+  // 5. Maceta Carrito Van Retro
+  {
+    id: "ixchel-carrito-van-retro",
+    slug: "maceta-carrito-van-retro",
+    name: "Maceta Carrito Van Retro",
+    subtitle: "Furgoneta camper vintage con ventanas y puerta lateral detalladas",
+    shortDescription:
+      "Maceta temática en forma de van clásica, espaciosa y perfecta para crear un mini jardín rodante de suculentas.",
+    description:
+      "Inspirada en las legendarias furgonetas camper. Cuenta con una cavidad generosa para plantar suculentas variadas o cactus. Cada línea de carrocería y rueda está moldeada con definición para destacar en cualquier ambiente.",
+    price: 3.5,
+    dimensions: {
+      height: "5.6 cm (2.2 in)",
+      diameter: "9.9 cm (3.9 in) de ancho",
+      width: "9.9 cm (3.9 in)",
+      formatted: "9.9 x 5.6 cm (3.9 x 2.2 in)",
+      formattedSummary: "9.9 x 5.6 cm",
+      isApproximate: false,
+      capacity: "0.35 Litros",
+      weight: "310 g",
+    },
+    finish: "color",
+    finishLabel: "Edición de Color (Blanco, Rojo, Azul, Café)",
+    colors: ["Blanco Base", "Rojo", "Azul", "Café"],
     sizeCategory: "pequena",
-    sizeLabel: "Pequeña (10 cm)",
-    drainage: "Orificio central calibrado para flujo libre de agua y raíces sanas.",
+    sizeLabel: "Pequeña (9.9 x 5.6 cm)",
+    drainage: "Drenaje inferior para salud radicular.",
+    includesSaucer: false,
+    images: ["/images/bus.png"],
+    badge: "Diseño Camper",
+    featured: false,
+    inStock: true,
+    craftProcess:
+      "Moldeo de alta fidelidad, pulido artesanal y curado completo al sol.",
+    plantCare: {
+      recommendedSpecies: "Suculentas en roseta, Crassula ovata mini o Haworthia",
+      light: "Luz directa suave o resolana intensa.",
+      watering: "Dejar secar el sustrato por completo entre riegos.",
+      substrate: "Sustrato mineral de secado rápido.",
+      careTip: "Excelente como regalo para viajeros y amantes de los autos retro.",
+    },
+  },
+
+  // 6. Maceta Bus Retro
+  {
+    id: "ixchel-bus-retro",
+    slug: "maceta-bus-retro",
+    name: "Maceta Bus Retro",
+    subtitle: "Autobús tradicional retro con capacidad extendida para arreglos",
+    shortDescription:
+      "Modelo de autobús retro con mayor longitud interior para composiciones de crasas y mini cactus.",
+    description:
+      "Diseño vintage que evoca los autobuses de ruta tradicionales. Su amplio cuerpo permite armar composiciones botánicas variadas combinando distintas especies y tonalidades verdes.",
+    price: 3.99,
+    dimensions: {
+      height: "6.4 cm (2.52 in)",
+      diameter: "10.9 cm (4.29 in) de ancho",
+      width: "10.9 cm (4.29 in)",
+      formatted: "10.9 x 6.4 cm (4.29 x 2.52 in)",
+      formattedSummary: "~10.9 x 6.4 cm",
+      isApproximate: true,
+      approximateNote:
+        "Medida aproximada basada en molde (10.9 x 6.4 cm). Foto referencial sujeta a confirmación de molde 1:1.",
+      capacity: "0.45 Litros",
+      weight: "380 g",
+    },
+    finish: "color",
+    finishLabel: "Edición de Color",
+    colors: ["Blanco Base", "Azul", "Rojo", "Café"],
+    sizeCategory: "mediana",
+    sizeLabel: "Mediana (~10.9 x 6.4 cm)",
+    drainage: "Drenaje funcional para evitar acumulación de agua.",
+    includesSaucer: false,
+    images: ["/images/bus.png"],
+    badge: "Revisión Manual",
+    featured: false,
+    inStock: true,
+    craftProcess:
+      "Vaciado en molde, curado natural al sol y detallado final a mano.",
+    plantCare: {
+      recommendedSpecies: "Arreglo combinado de crasas miniatura o Sansevieria enana",
+      light: "Luz brillante filtrada.",
+      watering: "Riego controlado cada 10 a 14 días.",
+      substrate: "Mezcla drenante con gravilla volcánica.",
+      careTip: "Combina dos tonos de verde para un contraste alegre.",
+    },
+  },
+
+  // 7. Florero Pata de Gato
+  {
+    id: "ixchel-pata-de-gato",
+    slug: "florero-pata-de-gato",
+    name: "Florero Pata de Gato",
+    subtitle: "Molde de silicona flexible / pieza decorativa para amantes de los felinos",
+    shortDescription:
+      "Diseño erguido con huella felina tridimensional, ideal para flores secas, ramitas o pequeñas varas botánicas.",
+    description:
+      "Una de las piezas más adorables de la colección. Diseñada con relieves suaves de almohadillas y garras estilizadas. Nota importante: Se suministra como molde de silicona flexible para elaboración artesanal.",
+    price: 1.99,
+    dimensions: {
+      height: "8.9 cm (3.5 in)",
+      diameter: "6.2 cm (2.44 in) de ancho",
+      width: "6.2 cm (2.44 in)",
+      formatted: "6.2 x 8.9 cm (2.44 x 3.5 in)",
+      formattedSummary: "~6.2 x 8.9 cm",
+      isApproximate: true,
+      approximateNote: "Medida aproximada basada en molde (6.2 x 8.9 cm).",
+      disclaimer: "Solo molde de silicona, no incluye producto terminado ni arreglos florales.",
+      capacity: "0.2 Litros",
+      weight: "180 g",
+    },
+    finish: "color",
+    finishLabel: "Molde de Silicona / Colección Mascotas",
+    colors: ["Blanco Base", "Café", "Rojo", "Azul"],
+    sizeCategory: "pequena",
+    sizeLabel: "Pequeño (~6.2 x 8.9 cm)",
+    drainage: "Cuerpo cilíndrico decorativo sin perforación de drenaje.",
+    includesSaucer: false,
+    images: ["/images/pata-de-gato.png"],
+    badge: "Solo Molde",
+    featured: false,
+    inStock: true,
+    craftProcess:
+      "Molde de silicona de alta elasticidad, durable y de fácil desmolde para yeso, cemento o resina.",
+    plantCare: {
+      recommendedSpecies: "Flores secas, ramitas de lavanda o eucalipto",
+      light: "Ubicación decorativa en interiores.",
+      watering: "No requiere riego; pensado para arreglos secos.",
+      substrate: "No aplica.",
+      careTip: "Un detalle encantador para escritorios y mesas de noche.",
+    },
+  },
+
+  // 8. Cesta Pequeña Trenzada
+  {
+    id: "ixchel-cesta-pequena",
+    slug: "cesta-pequena-trenzada",
+    name: "Cesta Pequeña Trenzada",
+    subtitle: "Cuenco compacto individual con textura entrelazada artesanal",
+    shortDescription:
+      "Cesta individual con borde trenzado y textura de mimbre, ideal para mini macetas de 5 a 6 cm o escritorio.",
+    description:
+      "Pieza compacta y delicada. Su cavidad interior (~7.5 cm) acomoda perfectamente una pequeña suculenta o sirve como accesorio botánico y organizador sobre cualquier superficie.",
+    price: 1.5,
+    dimensions: {
+      height: "3.0 cm (1.18 in)",
+      diameter: "6.5 cm (2.56 in) [Diámetro interior ~7.5 cm / 2.95 in]",
+      width: "6.5 cm (2.56 in)",
+      formatted: "6.5 x 3.0 cm (2.56 x 1.18 in) [Interior ~7.5 cm / 2.95 in]",
+      formattedSummary: "~6.5 x 3.0 cm",
+      isApproximate: true,
+      approximateNote: "Medida aproximada basada en molde (diámetro interior ~7.5 cm).",
+      capacity: "0.15 Litros",
+      weight: "140 g",
+    },
+    finish: "natural",
+    finishLabel: "Acabado Texturizado",
+    colors: ["Blanco Base", "Café"],
+    sizeCategory: "pequena",
+    sizeLabel: "Mini (~6.5 x 3.0 cm)",
+    drainage: "Drenaje funcional para maceta pequeña.",
+    includesSaucer: false,
+    images: ["/images/cesta-pequena.png"],
+    badge: "Mini Cesta",
+    featured: false,
+    inStock: true,
+    craftProcess:
+      "Elaboración cuidada en molde de relieve trenzado, curado natural al sol.",
+    plantCare: {
+      recommendedSpecies: "Echeveria mini, Sedum o Haworthia fasciata",
+      light: "Luz solar indirecta abundante.",
+      watering: "Riego espaciado con rociador o pipeta cada 10 días.",
+      substrate: "Sustrato mineral con piedra pómez fina.",
+      careTip: "Ideal para iluminar pequeños espacios de trabajo.",
+    },
+  },
+
+  // 9. Cesta Grande Trenzada
+  {
+    id: "ixchel-cesta-grande",
+    slug: "cesta-grande-trenzada",
+    name: "Cesta Grande Trenzada",
+    subtitle: "Tazón de boca ancha con relieve trenzado profundo",
+    shortDescription:
+      "Maceta tipo canasto de mayor capacidad, perfecta para crasas de porte medio o grupos de mini plantas.",
+    description:
+      "De proporciones amplias y estables. El borde en cordón trenzado y el tejido lateral confieren resistencia y una atmósfera artesanal acogedora a tu rincón verde favorito.",
+    price: 3.99,
+    dimensions: {
+      height: "5.6 cm (2.2 in)",
+      diameter: "8.8 cm (3.46 in)",
+      width: "8.8 cm (3.46 in)",
+      formatted: "8.8 x 5.6 cm (3.46 x 2.2 in)",
+      formattedSummary: "8.8 x 5.6 cm",
+      isApproximate: false,
+      capacity: "0.4 Litros",
+      weight: "340 g",
+    },
+    finish: "natural",
+    finishLabel: "Acabado Texturizado Natural",
+    colors: ["Blanco Base", "Café"],
+    sizeCategory: "pequena",
+    sizeLabel: "Tazón (8.8 x 5.6 cm)",
+    drainage: "Orificio central inferior.",
+    includesSaucer: false,
+    images: ["/images/cesta-grande.png"],
+    badge: "Textura Rústica",
+    featured: false,
+    inStock: true,
+    craftProcess:
+      "Texturizado de alta definición, orificio abierto a tiempo y curado al sol.",
+    plantCare: {
+      recommendedSpecies: "Arreglo de suculentas, Kalanchoe o Peperomia",
+      light: "Luz natural brillante.",
+      watering: "Riego moderado cuando el sustrato esté seco.",
+      substrate: "Mezcla porosa rica en nutrientes.",
+      careTip: "Su boca ancha permite plantar dos variedades complementarias.",
+    },
+  },
+
+  // 10. Maceta Casa Hongo Encantada
+  {
+    id: "ixchel-casa-hongo",
+    slug: "maceta-casa-hongo",
+    name: "Maceta Casa Hongo Encantada",
+    subtitle: "Fairy House de cuento de hadas con tejado de seta, puerta y ventana",
+    shortDescription:
+      "Diseño de fantasía con techo en forma de hongo y detalles esculpidos a mano, ideal para mini jardines de ensueño.",
+    description:
+      "Nuestra pieza más mágica. Su techo de hongo adornado con sutiles corazones corona una pequeña casita con ventana arqueada y puerta de cuento. La boca superior acoge una suculenta o helecho miniatura simulando la copa del hongo.",
+    price: 2.99,
+    dimensions: {
+      height: "7.6 cm (2.99 in)",
+      diameter: "8.6 cm (3.38 in) de ancho",
+      width: "8.6 cm (3.38 in)",
+      formatted: "8.6 x 7.6 cm (3.38 x 2.99 in)",
+      formattedSummary: "8.6 x 7.6 cm",
+      isApproximate: false,
+      capacity: "0.35 Litros",
+      weight: "290 g",
+    },
+    finish: "natural",
+    finishLabel: "Acabado Natural / Color",
+    colors: ["Blanco Base", "Café", "Rojo"],
+    sizeCategory: "pequena",
+    sizeLabel: "Pequeña (8.6 x 7.6 cm)",
+    drainage: "Orificio de drenaje calibrado en la base.",
     includesSaucer: false,
     images: ["/images/casita.png"],
     badge: "Favorita del Estudio",
     featured: true,
     inStock: true,
     craftProcess:
-      "Moldeada con esmero, orificio de drenaje abierto a tiempo y curada por completo bajo el sol de La Libertad.",
+      "Moldeada con esmero en nuestro taller familiar, curada bajo el sol de La Libertad.",
     plantCare: {
-      recommendedSpecies: "Suculentas compactas, Haworthia, Echeveria o Cactus miniatura",
-      light: "Luz brillante indirecta con algunas horas de sol suave matutino.",
-      watering: "Regar únicamente cuando el sustrato se sienta totalmente seco (cada 8 a 12 días).",
-      substrate: "Mezcla porosa: sustrato mineral con perlita y gravilla volcánica.",
-      careTip: "Ubícala en una ventana o repisa iluminada para mantener su forma compacta.",
+      recommendedSpecies: "Suculentas compactas, Haworthia o Echeveria",
+      light: "Luz brillante indirecta.",
+      watering: "Regar cada 8 a 12 días dejando secar el sustrato.",
+      substrate: "Mezcla con perlita y tierra de hojas.",
+      careTip: "Colócala junto a una pequeña planta trepadora para completar el efecto de cuento.",
     },
   },
+
+  // 11. Maceta Concha Orgánica
   {
-    id: "ixchel-concha",
-    slug: "maceta-concha",
-    name: "Maceta Concha",
-    subtitle: "Silueta marina orgánica disponible en ediciones de color",
+    id: "ixchel-concha-organica",
+    slug: "maceta-concha-organica",
+    name: "Maceta Concha Orgánica",
+    subtitle: "Forma marina estilizada con boca ondulada y textura en espiral",
     shortDescription:
-      "Relieves ondulados inspirados en las formas del mar, con drenaje funcional para raíces protegidas.",
+      "Maceta escultórica en forma de caracola marina, ideal para plantas rastreras, suculentas o follaje delicado.",
     description:
-      "Inspirada en las conchas marinas y la brisa costera. Su cuenco abierto y curvo permite que pequeñas plantas rastreras y crasas se desarrollen libremente. Disponible en café, rojo y azul.",
-    price: 4.0,
+      "Inspirada en las conchas marinas de la costa salvadoreña. Su silueta envolvente ofrece un cuenco protector para especies de raíces superficiales, combinando belleza orgánica y funcionalidad.",
+    price: 2.5,
     dimensions: {
-      height: "9.0 cm",
-      diameter: "13.0 cm",
-      capacity: "0.7 Litros",
-      weight: "520 g",
+      height: "3.5 cm (1.38 in)",
+      diameter: "12.5 cm (4.92 in) de largo · Prof. 6.1 cm (2.4 in)",
+      width: "12.5 cm (4.92 in)",
+      formatted: "12.5 x 3.5 cm (4.92 x 1.38 in) · Profundidad: 6.1 cm (2.4 in)",
+      formattedSummary: "~12.5 x 3.5 cm",
+      isApproximate: true,
+      approximateNote: "Medida aproximada basada en molde (12.5 x 6.1 x 3.5 cm).",
+      capacity: "0.3 Litros",
+      weight: "260 g",
     },
     finish: "color",
-    finishLabel: "Edición de Color (Café, Rojo, Azul)",
+    finishLabel: "Edición de Color (Blanco, Café, Rojo, Azul)",
     colors: ["Blanco Base", "Café", "Rojo", "Azul"],
     sizeCategory: "pequena",
-    sizeLabel: "Pequeña (13 cm)",
-    drainage: "Orificio inferior de drenaje para evitar encharcamientos.",
+    sizeLabel: "Orgánica (~12.5 x 3.5 cm)",
+    drainage: "Orificio inferior para flujo adecuado de riego.",
     includesSaucer: false,
     images: ["/images/concha.png"],
-    badge: "Edición de Color",
+    badge: "Edición Marina",
     featured: true,
     inStock: true,
     craftProcess:
-      "Dando forma en pareja, curado completo al sol y acabado artesanal en tonos café, rojo o azul.",
+      "Dando forma en pareja, curado completo al sol y pulido manual de aristas.",
     plantCare: {
       recommendedSpecies: "Sedum, Crasas en roseta o Peperomia prostrata",
       light: "Luz solar indirecta abundante.",
-      watering: "Riego espaciado y directo al sustrato sin mojar el centro de las rosetas.",
-      substrate: "Sustrato suelto con buen contenido de arena gruesa y piedra pómez.",
-      careTip: "Su boca ancha es ideal para componer un mini arreglo de dos o tres suculentas complementarias.",
-    },
-  },
-  {
-    id: "ixchel-corazon",
-    slug: "maceta-corazon",
-    name: "Maceta Corazón",
-    subtitle: "Un detalle botánico hecho con cariño familiar",
-    shortDescription:
-      "Maceta trabajada con paciencia y secada de forma natural, ideal para regalos botánicos.",
-    description:
-      "Una pieza tierna nacida de nuestro proyecto de pareja. Su contorno en forma de corazón abraza la raíz de plantas pequeñas y añade un detalle de amor a escritorios, veladores y estanterías.",
-    price: 3.5,
-    dimensions: {
-      height: "8.5 cm",
-      diameter: "11.0 cm",
-      capacity: "0.5 Litros",
-      weight: "400 g",
-    },
-    finish: "color",
-    finishLabel: "Edición de Color",
-    colors: ["Blanco Base", "Rojo", "Café"],
-    sizeCategory: "pequena",
-    sizeLabel: "Pequeña (11 cm)",
-    drainage: "Drenaje funcional calibrado para cuidar la salud radicular.",
-    includesSaucer: false,
-    images: ["/images/corazon.png"],
-    badge: "Hecha con Cariño",
-    featured: true,
-    inStock: true,
-    craftProcess:
-      "Proceso cuidadoso pieza a pieza, curada al sol y terminada con detalle de color a mano.",
-    plantCare: {
-      recommendedSpecies: "Cactus corazón (Hoya kerrii), fitonias o mini crásulas",
-      light: "Luz media a brillante sin sol directo quemante.",
-      watering: "Riego moderado cada 10 a 14 días en interiores.",
-      substrate: "Tierra nutritiva con fibra de coco y perlita.",
-      careTip: "Perfecta para regalar en ocasiones especiales acompañada de una dedicatoria verde.",
-    },
-  },
-  {
-    id: "ixchel-cestas",
-    slug: "maceta-cesta",
-    name: "Maceta Cesta",
-    subtitle: "Textura entrelazada de canasto tradicional con acabado rústico",
-    shortDescription:
-      "Relieves que evocan el tejido artesanal, combinando solidez y frescura para tus plantas.",
-    description:
-      "Diseñada con una textura en relieve que recuerda las cestas tradicionales. Su cuerpo resistente sostiene con firmeza plantas medianas, brindando una estética acogedora y serena.",
-    price: 4.0,
-    regularPrice: 5.33,
-    salePrice: 4.0,
-    onSale: true,
-    dimensions: {
-      height: "12.0 cm",
-      diameter: "13.5 cm",
-      capacity: "0.9 Litros",
-      weight: "620 g",
-    },
-    finish: "natural",
-    finishLabel: "Acabado Texturizado Natural",
-    colors: ["Blanco Base", "Café"],
-    sizeCategory: "mediana",
-    sizeLabel: "Mediana (13.5 cm)",
-    drainage: "Orificio inferior funcional para prevenir pudrición de raíces.",
-    includesSaucer: false,
-    images: ["/images/cestas.png"],
-    badge: "Textura Rústica",
-    featured: false,
-    inStock: true,
-    craftProcess:
-      "Texturizado artesanal en molde, curado paciente al sol y revisión minuciosa antes del empaque.",
-    plantCare: {
-      recommendedSpecies: "Pothos, Peperomias variegadas o Helechos compactos",
-      light: "Luz suave indirecta o semisombra iluminada.",
-      watering: "Mantener el sustrato ligeramente húmedo sin llegar a saturar.",
-      substrate: "Mezcla universal enriquecida con humus de lombriz.",
-      careTip: "Limpia periódicamente la textura externa con un pincel suave seco para mantenerla impecable.",
-    },
-  },
-  {
-    id: "ixchel-carro",
-    slug: "maceta-carro",
-    name: "Maceta Carrito",
-    subtitle: "Diseño temático vintage para espacios divertidos y llenos de vida",
-    shortDescription:
-      "Maceta lúdica inspirada en vehículos clásicos, curada al sol y terminada con detalle artesanal.",
-    description:
-      "Para quienes disfrutan de piezas originales y con personalidad. Su cavidad superior acoge suculentas o cactus que transforman el carrito en una pequeña camioneta llena de naturaleza.",
-    price: 5.0,
-    dimensions: {
-      height: "9.5 cm",
-      diameter: "14.0 cm",
-      capacity: "0.6 Litros",
-      weight: "550 g",
-    },
-    finish: "color",
-    finishLabel: "Edición de Color (Café, Rojo, Azul)",
-    colors: ["Blanco Base", "Rojo", "Azul", "Café"],
-    sizeCategory: "pequena",
-    sizeLabel: "Pequeña (14 cm)",
-    drainage: "Orificio de drenaje integrado para mantener sano el sustrato.",
-    includesSaucer: false,
-    images: ["/images/carro.png"],
-    badge: "Diseño Temático",
-    featured: false,
-    inStock: true,
-    craftProcess:
-      "Dando forma en pareja, curado completo al sol y terminado con paleta de color a mano.",
-    plantCare: {
-      recommendedSpecies: "Sedum burrito, cactus globulares o Graptopetalum",
-      light: "Luz directa suave o resolana intensa.",
-      watering: "Dejar secar por completo entre riegos.",
-      substrate: "Sustrato mineral de secado rápido.",
-      careTip: "Ideal como punto de conversación en repisas infantiles, escritorios o recibidores.",
-    },
-  },
-  {
-    id: "ixchel-bus",
-    slug: "maceta-bus",
-    name: "Maceta Autobús",
-    subtitle: "Silueta retro con carácter y presencia vegetal",
-    shortDescription:
-      "Maceta con diseño temático de autobús tradicional, con amplio espacio interior para suculentas.",
-    description:
-      "Con una marcada vibra retro, la Maceta Autobús permite sembrar pequeños arreglos botánicos o suculentas que simulan un jardín en movimiento. Trabajada con paciencia y secada al sol.",
-    price: 5.0,
-    dimensions: {
-      height: "10.0 cm",
-      diameter: "15.0 cm",
-      capacity: "0.8 Litros",
-      weight: "680 g",
-    },
-    finish: "color",
-    finishLabel: "Edición de Color",
-    colors: ["Blanco Base", "Azul", "Rojo", "Café"],
-    sizeCategory: "mediana",
-    sizeLabel: "Mediana (15 cm)",
-    drainage: "Drenaje funcional para evitar acumulación dañina de agua.",
-    includesSaucer: false,
-    images: ["/images/bus.png"],
-    badge: "Edición Retro",
-    featured: false,
-    inStock: true,
-    craftProcess:
-      "Vaciado en molde, curado natural al sol y detallado final a mano en nuestro espacio de trabajo.",
-    plantCare: {
-      recommendedSpecies: "Arreglo combinado de crasas miniatura o Sansevieria enana",
-      light: "Luz brillante filtrada.",
-      watering: "Riego controlado con regadera de cuello largo cada 10 a 14 días.",
-      substrate: "Mezcla drenante con fibra de coco y piedra volcánica fina.",
-      careTip: "Planta especies de diferentes tonalidades verdes para crear un contraste vivo y alegre.",
-    },
-  },
-  {
-    id: "ixchel-pata-de-gato",
-    slug: "florero-pata-de-gato",
-    name: "Florero Huella de Gato",
-    subtitle: "Dedicado a los amantes de los felinos y los arreglos delicados",
-    shortDescription:
-      "Florero artesanal con relieve de huellita de gato, tierno y funcional para ramitas, flores secas o pequeños tallos.",
-    description:
-      "Florero creado para celebrar el vínculo entre nuestros amigos de cuatro patas y la naturaleza. Su relieve en forma de huella felina destaca sobre el cuerpo sólido y curado al sol, perfecto para ramitas o flores secas.",
-    price: 3.5,
-    dimensions: {
-      height: "8.0 cm",
-      diameter: "10.5 cm",
-      capacity: "0.5 Litros",
-      weight: "380 g",
-    },
-    finish: "color",
-    finishLabel: "Edición de Color",
-    colors: ["Blanco Base", "Café", "Rojo", "Azul"],
-    sizeCategory: "pequena",
-    sizeLabel: "Pequeño (10.5 cm)",
-    drainage: "Cuerpo sellado ideal para flores secas, ramitas aromáticas o pequeños tallos.",
-    includesSaucer: false,
-    images: ["/images/pata-de-gato.png"],
-    badge: "Colección Mascotas",
-    featured: false,
-    inStock: true,
-    craftProcess:
-      "Curado al sol y terminado con detalle artesanal en nuestro estudio familiar en La Libertad.",
-    plantCare: {
-      recommendedSpecies: "Flores secas, ramitas de eucalipto, lavanda o pequeños tallos",
-      light: "Ubicación decorativa en interiores con luz natural.",
-      watering: "Apto para arreglos secos o pequeños esquejes.",
-      substrate: "No requiere sustrato pesado; ideal con flores decorativas.",
-      careTip: "Un detalle adorable y único para embellecer escritorios, repisas o mesas de noche.",
-    },
-  },
-  {
-    id: "ixchel-vacija",
-    slug: "maceta-vasija",
-    name: "Maceta Vasija",
-    subtitle: "Silueta clásica inspirada en nuestras raíces",
-    shortDescription:
-      "Forma orgánica de cuello suave y base redondeada, curada al sol para resistir el paso del tiempo.",
-    description:
-      "Un tributo a las formas de vasijas tradicionales que honran nuestras raíces. Con proporciones equilibradas para plantas medianas, enredaderas o follajes densos, cuidando siempre la ventilación del sustrato.",
-    price: 4.5,
-    dimensions: {
-      height: "13.5 cm",
-      diameter: "14.0 cm",
-      capacity: "1.2 Litros",
-      weight: "750 g",
-    },
-    finish: "natural",
-    finishLabel: "Acabado Natural",
-    colors: ["Blanco Base", "Café"],
-    sizeCategory: "mediana",
-    sizeLabel: "Mediana (14 cm)",
-    drainage: "Orificio central calibrado de drenaje para flujo óptimo de riego.",
-    includesSaucer: false,
-    images: ["/images/vacija.png"],
-    badge: "Clásica de Raíces",
-    featured: true,
-    inStock: true,
-    craftProcess:
-      "Mezcla calibrada, moldeado en pareja, curado completo bajo el sol y pulido de detalles a mano.",
-    plantCare: {
-      recommendedSpecies: "String of Hearts, Pothos, Singonio o Monsterita Adansonii",
-      light: "Luz indirecta brillante.",
-      watering: "Riego profundo dejando drenar todo el exceso de agua por la base.",
-      substrate: "Sustrato suelto enriquecido con corteza y perlita.",
-      careTip: "Permite que las guías de las plantas colgantes caigan sobre el cuello curvo de la vasija.",
-    },
-  },
-  {
-    id: "ixchel-vacija-2",
-    slug: "maceta-vasija-curva",
-    name: "Maceta Vasija Curva",
-    subtitle: "Elegancia rústica con líneas suaves y atemporales",
-    shortDescription:
-      "Variante de vasija artesanal con perfil estilizado, pensada para lucir plantas de porte erguido o colgante.",
-    description:
-      "Curada al sol en nuestro estudio de La Libertad, esta vasija destaca por su silueta curva de presencia serena. Su boca abierta facilita el trasplante y permite que las raíces crezcan cómodas y aireadas.",
-    price: 5.0,
-    dimensions: {
-      height: "15.0 cm",
-      diameter: "15.0 cm",
-      capacity: "1.4 Litros",
-      weight: "820 g",
-    },
-    finish: "natural",
-    finishLabel: "Acabado Natural",
-    colors: ["Blanco Base", "Café", "Azul"],
-    sizeCategory: "mediana",
-    sizeLabel: "Mediana (15 cm)",
-    drainage: "Orificio central inferior anti-encharcamiento.",
-    includesSaucer: false,
-    images: ["/images/vacija_2.png"],
-    badge: "Pieza Serenidad",
-    featured: false,
-    inStock: true,
-    craftProcess:
-      "Preparación de mezcla exacta, desmolde cuidadoso, curado al sol y revisión final.",
-    plantCare: {
-      recommendedSpecies: "Zamioculca (ZZ plant), Sansevieria cilíndrica o Maranta",
-      light: "Tolera desde luz media hasta luz brillante indirecta.",
-      watering: "Riego moderado a bajo: 1 vez cada 12 a 15 días.",
-      substrate: "Mezcla universal con buena porosidad.",
-      careTip: "Una de las piezas más estables y versátiles para decorar mesas auxiliares o repisas.",
+      watering: "Riego espaciado y directo al sustrato.",
+      substrate: "Sustrato suelto con arena gruesa y piedra pómez.",
+      careTip: "Su apertura horizontal permite admirar las rosetas desde arriba.",
     },
   },
 ];
@@ -386,8 +538,15 @@ export function getProductBySlug(slug: string): Product | undefined {
   return products.find(
     (p) =>
       p.slug === slug ||
-      (slug === "maceta-pata-de-gato" && p.slug === "florero-pata-de-gato") ||
-      (slug === "florero-pata-de-gato" && p.slug === "maceta-pata-de-gato")
+      // Compatibilidad con URLs anteriores
+      (slug === "maceta-casita" && p.slug === "maceta-casa-hongo") ||
+      (slug === "maceta-concha" && p.slug === "maceta-concha-organica") ||
+      (slug === "maceta-carro" && p.slug === "maceta-auto-retro") ||
+      (slug === "maceta-cesta" && p.slug === "combo-cestas-trenzadas") ||
+      (slug === "maceta-corazon" && p.slug === "combo-cestas-trenzadas") ||
+      (slug === "maceta-bus" && p.slug === "maceta-bus-retro") ||
+      (slug === "maceta-vasija" && p.slug === "maceta-vasija-estilo-barro") ||
+      (slug === "maceta-pata-de-gato" && p.slug === "florero-pata-de-gato")
   );
 }
 

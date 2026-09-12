@@ -62,7 +62,7 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
         {/* Etiqueta de tamaño */}
         <div className="absolute bottom-3 right-3 z-10">
           <span className="text-[11px] font-sans font-medium px-2 py-0.5 rounded-md bg-tierra/70 text-crema backdrop-blur-xs">
-            {product.dimensions.diameter}
+            {product.dimensions.formattedSummary || product.dimensions.diameter}
           </span>
         </div>
       </Link>
