@@ -88,7 +88,7 @@ export default function HomePage() {
                 <div className="relative aspect-4/3 sm:aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-blanco-artesanal bg-crema-tint">
                   <Image
                     src="/images/hero-planter.jpg"
-                    alt="Maceta artesanal Ixchel Luna Creciente con planta String of Hearts"
+                    alt="Maceta artesanal Ixchel Luna Creciente con planta Callisia Pink"
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 45vw"
@@ -101,7 +101,7 @@ export default function HomePage() {
                         Maceta Luna Creciente
                       </p>
                       <p className="text-[11px] text-salvia-dark">
-                        Acabado natural + String of Hearts
+                        Acabado natural + Callisia Pink
                       </p>
                     </div>
                     <span className="text-sm font-bold text-terracotta font-sans">
@@ -222,7 +222,7 @@ export default function HomePage() {
                 Inspiración Lunar y Botánica
               </h3>
               <p className="text-sm text-tierra-muted leading-relaxed">
-                Ixchel es la diosa maya de la luna, el agua y los ciclos de vida. Diseñamos proporciones pensadas para que las enredaderas como String of Hearts y suculentas caigan con gracia natural.
+                Ixchel es la diosa maya de la luna, el agua y los ciclos de vida. Diseñamos proporciones pensadas para que las enredaderas como Callisia Pink y suculentas caigan con gracia natural.
               </p>
             </div>
           </div>

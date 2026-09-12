@@ -64,9 +64,6 @@ export default function EncuentraSuHogarPage() {
               >
                 <Gift size={18} weight={activeTab === "surprise" ? "fill" : "bold"} />
                 <span>Sorpréndeme</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-luna/30 text-tierra font-extrabold uppercase">
-                  15 Dúos
-                </span>
               </button>
             </div>
           </div>

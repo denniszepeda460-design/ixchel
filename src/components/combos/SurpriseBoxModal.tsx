@@ -2,7 +2,13 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { surpriseCombos, SurpriseCombo, availablePlants, createComboCartProduct } from "@/data/combos";
+import {
+  surpriseCombos,
+  SurpriseCombo,
+  availablePlants,
+  createComboCartProduct,
+  calculateComboComposition,
+} from "@/data/combos";
 import { products } from "@/data/products";
 import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/config/site";
@@ -242,13 +248,13 @@ export default function SurpriseBoxModal() {
       <div className="text-center max-w-xl mx-auto space-y-2">
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta/15 text-terracotta text-xs font-bold uppercase tracking-wider">
           <Gift size={15} weight="fill" />
-          <span>15 Parejas Pre-aprobadas</span>
+          <span>Dúos Botánicos Curados</span>
         </span>
         <h2 className="font-sans font-extrabold text-2xl sm:text-3xl text-tierra">
           La Caja Sorpresa de Ixchel
         </h2>
         <p className="text-xs sm:text-sm text-tierra-muted leading-relaxed">
-          ¿Indeciso? Toca la caja de regalo para revelar una de nuestras 15 combinaciones favoritas ya validadas y listas para lucir en tu hogar.
+          ¿Indeciso? Toca la caja de regalo para revelar una de nuestras combinaciones botánicas favoritas ya validadas y listas para lucir en tu hogar.
         </p>
       </div>
 
@@ -292,7 +298,7 @@ export default function SurpriseBoxModal() {
               </p>
               <p className="text-[11px] text-tierra-muted">
                 {animationState === "animating"
-                  ? "Eligiendo entre 15 combinaciones botánicas..."
+                  ? "Eligiendo una combinación botánica especial..."
                   : "Descubre una combinación con descuento especial"}
               </p>
             </div>
@@ -306,9 +312,73 @@ export default function SurpriseBoxModal() {
                 <span>{selectedCombo.badge}</span>
               </div>
 
-              {/* Visual del combo: maceta + planta */}
+              {/* Visual del combo: misma composición de alta fidelidad que Arma tu combo */}
               {(() => {
                 const { planter, plant } = getComboDetails(selectedCombo);
+                const isTransparentComposition = Boolean(planter.transparentImage && plant.transparentImage);
+
+                if (isTransparentComposition) {
+                  const {
+                    planterVisualWidth,
+                    planterVisualHeight,
+                    plantVisualWidth,
+                    plantVisualHeight,
+                    effectiveMarginBottom,
+                    effectiveXOffset,
+                  } = calculateComboComposition(plant, planter, 0.82);
+
+                  return (
+                    <div className="relative w-full max-w-[240px] h-56 mx-auto flex flex-col items-center justify-end pb-3 select-none">
+                      {/* 1. Capa Superior (z-20): Planta viva anclada dentro de la boca */}
+                      <div
+                        key={`surprise-plant-${plant.id}-${planter.id}`}
+                        style={{
+                          width: `${plantVisualWidth}px`,
+                          height: `${plantVisualHeight}px`,
+                          marginBottom: `-${effectiveMarginBottom}px`,
+                          transform: effectiveXOffset ? `translateX(${effectiveXOffset}px)` : undefined,
+                        }}
+                        className="relative z-20 animate-in slide-in-from-top-3 fade-in duration-500 flex items-center justify-center pointer-events-none"
+                      >
+                        <Image
+                          src={plant.transparentImage!}
+                          alt={plant.name}
+                          fill
+                          sizes="200px"
+                          className="object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] filter contrast-[1.03] brightness-[0.99]"
+                          priority
+                        />
+                      </div>
+
+                      {/* 2. Capa Base (z-10): Maceta artesanal sin fondo */}
+                      <div
+                        key={`surprise-planter-${planter.id}`}
+                        style={{
+                          width: `${planterVisualWidth}px`,
+                          height: `${planterVisualHeight}px`,
+                        }}
+                        className="relative z-10 animate-in slide-in-from-bottom-3 fade-in duration-500 flex items-center justify-center pointer-events-none"
+                      >
+                        <Image
+                          src={planter.transparentImage!}
+                          alt={planter.name}
+                          fill
+                          sizes="200px"
+                          className="object-contain drop-shadow-[0_6px_14px_rgba(44,35,28,0.08)]"
+                          priority
+                        />
+                      </div>
+
+                      {/* 3. Sombra de contacto unificada en el piso */}
+                      <div
+                        style={{ width: `${Math.round(planterVisualWidth * 0.78)}px` }}
+                        className="h-3 rounded-[100%] bg-tierra/22 blur-[4px] -mt-1 mx-auto"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  );
+                }
+
                 return (
                   <div className="relative w-full max-w-[220px] h-52 mx-auto flex flex-col items-center justify-end pb-2">
                     {/* Planta */}

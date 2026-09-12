@@ -3,7 +3,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { products, Product } from "@/data/products";
-import { availablePlants, Plant, evaluateCombo, createComboCartProduct } from "@/data/combos";
+import {
+  availablePlants,
+  Plant,
+  evaluateCombo,
+  createComboCartProduct,
+  calculateComboComposition,
+} from "@/data/combos";
 import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/config/site";
 import {
@@ -13,7 +19,6 @@ import {
   ShoppingBag,
   Sparkle,
   PottedPlant,
-  ArrowsClockwise,
 } from "@phosphor-icons/react";
 
 export default function ManualComboBuilder() {
@@ -25,7 +30,22 @@ export default function ManualComboBuilder() {
   const { addItem } = useCartStore();
 
   const evaluation = evaluateCombo(selectedPlant, selectedPlanter);
+  const isPlanterPricePending = Boolean(selectedPlanter.priceDisplay);
   const totalPrice = Number((selectedPlant.price + selectedPlanter.price).toFixed(2));
+
+  // --- MOTOR DE COMPOSICIÓN VISUAL INTELIGENTE (BASADO EN RECORTE ALFA DE PRECISIÓN) ---
+  const hasTransparentPlanter = Boolean(selectedPlanter.transparentImage);
+  const hasTransparentPlant = Boolean(selectedPlant.transparentImage);
+  const isTransparentComposition = hasTransparentPlanter && hasTransparentPlant;
+
+  const {
+    planterVisualWidth,
+    planterVisualHeight,
+    plantVisualWidth,
+    plantVisualHeight,
+    effectiveMarginBottom,
+    effectiveXOffset,
+  } = calculateComboComposition(selectedPlant, selectedPlanter, 1.0);
 
   const handleAddToCart = () => {
     const comboProduct = createComboCartProduct(
@@ -74,6 +94,7 @@ export default function ManualComboBuilder() {
           <div className="space-y-2.5 max-h-[580px] overflow-y-auto pr-1">
             {availablePlants.map((plant) => {
               const isSelected = selectedPlant.id === plant.id;
+              const hasTransp = Boolean(plant.transparentImage);
               return (
                 <button
                   key={plant.id}
@@ -88,8 +109,8 @@ export default function ManualComboBuilder() {
                     <Image
                       src={plant.image}
                       alt={plant.name}
-                      width={40}
-                      height={40}
+                      width={44}
+                      height={44}
                       className="object-contain"
                     />
                   </div>
@@ -102,9 +123,16 @@ export default function ManualComboBuilder() {
                         {formatPrice(plant.price)}
                       </span>
                     </div>
-                    <span className="text-[10px] text-tierra-muted block truncate">
-                      {plant.sizeLabel}
-                    </span>
+                    <div className="flex items-center gap-1.5 pt-0.5">
+                      <span className="text-[10px] text-tierra-muted truncate">
+                        {plant.sizeLabel}
+                      </span>
+                      {hasTransp && (
+                        <span className="text-[9px] px-1 py-0.2 rounded bg-salvia/20 text-salvia-dark font-medium shrink-0">
+                          Sin fondo
+                        </span>
+                      )}
+                    </div>
                   </div>
                   {isSelected && (
                     <div className="w-5 h-5 rounded-full bg-salvia-dark text-white flex items-center justify-center shrink-0">
@@ -117,49 +145,113 @@ export default function ManualComboBuilder() {
           </div>
         </div>
 
-        {/* COLUMNA CENTRAL: Vista Previa y Ensamblaje 2D */}
+        {/* COLUMNA CENTRAL: Vista Previa y Ensamblaje en Vivo */}
         <div className="lg:col-span-6 space-y-5">
           <div className="p-6 sm:p-8 rounded-3xl bg-blanco-artesanal border-2 border-crema-dark shadow-sm relative overflow-hidden flex flex-col items-center text-center">
             {/* Fondo orgánico suave */}
             <div className="absolute inset-0 bg-gradient-to-b from-crema-tint/50 via-transparent to-crema-tint/80 pointer-events-none" />
 
-            <span className="relative z-10 text-[11px] uppercase tracking-wider font-bold text-tierra-muted mb-2">
-              Área de Ensamblaje en Vivo
-            </span>
-
-            {/* Escenario de Ensamble Visual 2D con capas */}
-            <div className="relative w-full max-w-sm h-72 sm:h-80 flex flex-col items-center justify-end pb-4 my-2 z-10">
-              {/* Capa de la Planta (animada cayendo / creciendo desde la maceta) */}
-              <div
-                key={`plant-${selectedPlant.id}`}
-                className="relative z-20 w-36 h-36 sm:w-44 sm:h-44 -mb-12 animate-in slide-in-from-top-6 fade-in duration-500 flex items-center justify-center"
-              >
-                <Image
-                  src={selectedPlant.image}
-                  alt={selectedPlant.name}
-                  width={160}
-                  height={160}
-                  className="object-contain drop-shadow-md"
-                />
-              </div>
-
-              {/* Capa de la Maceta (deslizándose y sirviendo de base) */}
-              <div
-                key={`planter-${selectedPlanter.id}`}
-                className="relative z-10 w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden animate-in slide-in-from-bottom-6 fade-in duration-500 shadow-md border border-crema-dark bg-crema-tint/20"
-              >
-                <Image
-                  src={selectedPlanter.images[0]}
-                  alt={selectedPlanter.name}
-                  fill
-                  sizes="220px"
-                  className="object-cover"
-                />
-              </div>
-
-              {/* Sombra de apoyo en suelo */}
-              <div className="w-40 h-4 rounded-full bg-tierra/10 blur-xs mt-1" />
+            <div className="relative z-10 flex items-center gap-2 mb-2">
+              <span className="text-[11px] uppercase tracking-wider font-bold text-tierra-muted">
+                Área de Ensamblaje en Vivo
+              </span>
+              {isTransparentComposition ? (
+                <span className="px-2 py-0.5 rounded-full bg-salvia/20 text-salvia-dark text-[10px] font-bold">
+                  Composición Inteligente
+                </span>
+              ) : (
+                <span className="px-2 py-0.5 rounded-full bg-crema-dark/50 text-tierra-muted text-[10px] font-medium">
+                  Modo Respaldo
+                </span>
+              )}
             </div>
+
+            {/* ESCENARIO DE ENSAMBLE: Renderizado Proporcional o Fallback */}
+            {isTransparentComposition ? (
+              /* MODO COMPOSICIÓN INTELIGENTE (Plantas y Macetas Sin Fondo) */
+              <div className="relative w-full max-w-sm h-80 flex flex-col items-center justify-end pb-3 my-2 z-10 select-none">
+                {/* 1. Capa Superior (z-20): Planta viva anclada dentro de la boca de la maceta */}
+                <div
+                  key={`plant-trans-${selectedPlant.id}-${selectedPlanter.id}`}
+                  style={{
+                    width: `${plantVisualWidth}px`,
+                    height: `${plantVisualHeight}px`,
+                    marginBottom: `-${effectiveMarginBottom}px`,
+                    transform: effectiveXOffset ? `translateX(${effectiveXOffset}px)` : undefined,
+                  }}
+                  className="relative z-20 animate-in slide-in-from-top-3 fade-in duration-500 flex items-center justify-center transition-all duration-500 ease-out pointer-events-none"
+                >
+                  <Image
+                    src={selectedPlant.transparentImage!}
+                    alt={selectedPlant.name}
+                    fill
+                    sizes="(max-width: 768px) 190px, 260px"
+                    className="object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] filter contrast-[1.03] brightness-[0.99]"
+                    priority
+                  />
+                </div>
+
+                {/* 2. Capa Base (z-10): Maceta artesanal sin fondo */}
+                <div
+                  key={`planter-trans-${selectedPlanter.id}`}
+                  style={{
+                    width: `${planterVisualWidth}px`,
+                    height: `${planterVisualHeight}px`,
+                  }}
+                  className="relative z-10 animate-in slide-in-from-bottom-3 fade-in duration-500 flex items-center justify-center transition-all duration-500 ease-out pointer-events-none"
+                >
+                  <Image
+                    src={selectedPlanter.transparentImage!}
+                    alt={selectedPlanter.name}
+                    fill
+                    sizes="(max-width: 768px) 210px, 280px"
+                    className="object-contain drop-shadow-[0_6px_14px_rgba(44,35,28,0.08)]"
+                    priority
+                  />
+                </div>
+
+                {/* 3. Sombra Unificada en el Piso: Contacto suave en la superficie */}
+                <div
+                  style={{ width: `${Math.round(planterVisualWidth * 0.78)}px` }}
+                  className="h-3.5 rounded-[100%] bg-tierra/22 blur-[5px] -mt-1 mx-auto transition-all duration-500"
+                  aria-hidden="true"
+                />
+              </div>
+            ) : (
+              /* MODO FALLBACK ESTÁNDAR: Cuando alguna pieza carece de recorte limpio */
+              <div className="relative w-full max-w-sm h-72 sm:h-80 flex flex-col items-center justify-end pb-4 my-2 z-10 select-none">
+                {/* Planta */}
+                <div
+                  key={`plant-fallback-${selectedPlant.id}`}
+                  className="relative z-20 w-32 h-32 sm:w-40 sm:h-40 -mb-10 animate-in slide-in-from-top-6 fade-in duration-500 flex items-center justify-center"
+                >
+                  <Image
+                    src={selectedPlant.image}
+                    alt={selectedPlant.name}
+                    width={150}
+                    height={150}
+                    className="object-contain drop-shadow-md"
+                  />
+                </div>
+
+                {/* Maceta en tarjeta contenida con marco rústico */}
+                <div
+                  key={`planter-fallback-${selectedPlanter.id}`}
+                  className="relative z-10 w-44 h-44 sm:w-48 sm:h-48 rounded-2xl overflow-hidden animate-in slide-in-from-bottom-6 fade-in duration-500 shadow-md border border-crema-dark bg-crema-tint/20"
+                >
+                  <Image
+                    src={selectedPlanter.images[0]}
+                    alt={selectedPlanter.name}
+                    fill
+                    sizes="200px"
+                    className="object-cover"
+                  />
+                </div>
+
+                {/* Sombra de apoyo */}
+                <div className="w-36 h-3.5 rounded-full bg-tierra/15 blur-xs mt-1" />
+              </div>
+            )}
 
             {/* Ficha rápida del ensamble */}
             <div className="relative z-10 w-full mt-2 pt-4 border-t border-crema-dark/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
@@ -179,8 +271,14 @@ export default function ManualComboBuilder() {
                 <span className="text-[10px] uppercase font-bold text-tierra-light block">
                   Precio Total
                 </span>
-                <span className="font-sans font-extrabold text-2xl text-terracotta">
-                  {formatPrice(totalPrice)}
+                <span className="font-sans font-extrabold text-xl sm:text-2xl text-terracotta">
+                  {isPlanterPricePending ? (
+                    <span className="text-sm sm:text-base font-bold text-terracotta">
+                      ${selectedPlant.price.toFixed(2)} + [PENDIENTE]
+                    </span>
+                  ) : (
+                    formatPrice(totalPrice)
+                  )}
                 </span>
               </div>
             </div>
@@ -282,13 +380,17 @@ export default function ManualComboBuilder() {
             ) : (
               <>
                 <ShoppingBag size={20} weight="bold" />
-                <span>✓ Agregar Combo al Carrito • {formatPrice(totalPrice)}</span>
+                <span>
+                  {isPlanterPricePending
+                    ? `✓ Agregar Combo al Carrito • ${formatPrice(selectedPlant.price)} + [PENDIENTE: maceta]`
+                    : `✓ Agregar Combo al Carrito • ${formatPrice(totalPrice)}`}
+                </span>
               </>
             )}
           </button>
         </div>
 
-        {/* COLUMNA DERECHA: Catálogo de Macetas (10 moldes oficiales) */}
+        {/* COLUMNA DERECHA: Catálogo de Macetas (12 piezas incluyendo Corazón y Tetera) */}
         <div className="lg:col-span-3 space-y-3">
           <div className="flex items-center justify-between pb-2 border-b border-crema-dark/60">
             <h3 className="font-sans font-bold text-sm text-tierra flex items-center gap-1.5">
@@ -302,6 +404,9 @@ export default function ManualComboBuilder() {
           <div className="space-y-2.5 max-h-[580px] overflow-y-auto pr-1">
             {products.map((planter) => {
               const isSelected = selectedPlanter.id === planter.id;
+              const hasTransp = Boolean(planter.transparentImage);
+              const planterPriceText = planter.priceDisplay || formatPrice(planter.price);
+
               return (
                 <button
                   key={planter.id}
@@ -317,13 +422,13 @@ export default function ManualComboBuilder() {
                       : "bg-blanco-artesanal border-crema-dark/70 hover:border-terracotta/50 hover:bg-crema-tint/40"
                   }`}
                 >
-                  <div className="relative w-12 h-12 rounded-xl bg-crema-tint/80 border border-crema-dark/50 overflow-hidden shrink-0">
+                  <div className="relative w-12 h-12 rounded-xl bg-crema-tint/80 border border-crema-dark/50 overflow-hidden shrink-0 flex items-center justify-center">
                     <Image
-                      src={planter.images[0]}
+                      src={planter.transparentImage || planter.images[0]}
                       alt={planter.name}
                       fill
                       sizes="48px"
-                      className="object-cover"
+                      className={hasTransp ? "object-contain p-1" : "object-cover"}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -332,12 +437,19 @@ export default function ManualComboBuilder() {
                         {planter.name}
                       </h4>
                       <span className="text-xs font-bold text-terracotta shrink-0">
-                        {formatPrice(planter.price)}
+                        {planterPriceText}
                       </span>
                     </div>
-                    <span className="text-[10px] text-tierra-muted block truncate">
-                      {planter.dimensions.formattedSummary || planter.dimensions.formatted}
-                    </span>
+                    <div className="flex items-center gap-1.5 pt-0.5">
+                      <span className="text-[10px] text-tierra-muted truncate">
+                        {planter.dimensions.formattedSummary || planter.dimensions.formatted}
+                      </span>
+                      {hasTransp && (
+                        <span className="text-[9px] px-1 py-0.2 rounded bg-terracotta/15 text-terracotta font-medium shrink-0">
+                          Sin fondo
+                        </span>
+                      )}
+                    </div>
                   </div>
                   {isSelected && (
                     <div className="w-5 h-5 rounded-full bg-terracotta text-white flex items-center justify-center shrink-0">

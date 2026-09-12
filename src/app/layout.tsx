@@ -50,7 +50,7 @@ export const metadata: Metadata = {
         url: "/images/hero-planter.jpg",
         width: 1200,
         height: 900,
-        alt: "Maceta artesanal Ixchel Luna Creciente con planta String of Hearts",
+        alt: "Maceta artesanal Ixchel Luna Creciente con planta Callisia Pink",
       },
     ],
     locale: "es_SV",

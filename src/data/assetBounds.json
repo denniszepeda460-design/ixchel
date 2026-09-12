@@ -1,0 +1,294 @@
+{
+  "plantas": {
+    "Callisia Pink.png": {
+      "originalFilename": "Callisia Pink.png",
+      "normalizedFilename": "Callisia Pink.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        30,
+        43,
+        566,
+        408
+      ],
+      "trimmedWidth": 536,
+      "trimmedHeight": 365,
+      "aspectRatio": 1.4685,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Callisia Pink.png"
+    },
+    "Callisia Pink  .png": {
+      "originalFilename": "Callisia Pink  .png",
+      "normalizedFilename": "Callisia Pink.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        30,
+        43,
+        566,
+        408
+      ],
+      "trimmedWidth": 536,
+      "trimmedHeight": 365,
+      "aspectRatio": 1.4685,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Callisia Pink.png"
+    },
+    "Callisia Pink .png": {
+      "originalFilename": "Callisia Pink .png",
+      "normalizedFilename": "Callisia Pink.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        30,
+        43,
+        566,
+        408
+      ],
+      "trimmedWidth": 536,
+      "trimmedHeight": 365,
+      "aspectRatio": 1.4685,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Callisia Pink.png"
+    },
+    "Echeveria Ives Fred Monstruosa.png": {
+      "originalFilename": "Echeveria Ives Fred Monstruosa.png",
+      "normalizedFilename": "Echeveria Ives Fred Monstruosa.png",
+      "originalWidth": 500,
+      "originalHeight": 500,
+      "bbox": [
+        7,
+        60,
+        492,
+        423
+      ],
+      "trimmedWidth": 485,
+      "trimmedHeight": 363,
+      "aspectRatio": 1.3361,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Echeveria Ives Fred Monstruosa.png"
+    },
+    "Echeveria Ives Fred Monstruosa .png": {
+      "originalFilename": "Echeveria Ives Fred Monstruosa .png",
+      "normalizedFilename": "Echeveria Ives Fred Monstruosa.png",
+      "originalWidth": 500,
+      "originalHeight": 500,
+      "bbox": [
+        7,
+        60,
+        492,
+        423
+      ],
+      "trimmedWidth": 485,
+      "trimmedHeight": 363,
+      "aspectRatio": 1.3361,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Echeveria Ives Fred Monstruosa.png"
+    },
+    "Echeveria Lilac Mist.png": {
+      "originalFilename": "Echeveria Lilac Mist.png",
+      "normalizedFilename": "Echeveria Lilac Mist.png",
+      "originalWidth": 432,
+      "originalHeight": 578,
+      "bbox": [
+        7,
+        64,
+        432,
+        495
+      ],
+      "trimmedWidth": 425,
+      "trimmedHeight": 431,
+      "aspectRatio": 0.9861,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Echeveria Lilac Mist.png"
+    },
+    "Echeveria Serena.png": {
+      "originalFilename": "Echeveria Serena.png",
+      "normalizedFilename": "Echeveria Serena.png",
+      "originalWidth": 500,
+      "originalHeight": 500,
+      "bbox": [
+        15,
+        39,
+        467,
+        436
+      ],
+      "trimmedWidth": 452,
+      "trimmedHeight": 397,
+      "aspectRatio": 1.1385,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Echeveria Serena.png"
+    },
+    "Flor de las 11.png": {
+      "originalFilename": "Flor de las 11.png",
+      "normalizedFilename": "Flor de las 11.png",
+      "originalWidth": 433,
+      "originalHeight": 577,
+      "bbox": [
+        1,
+        262,
+        433,
+        528
+      ],
+      "trimmedWidth": 432,
+      "trimmedHeight": 266,
+      "aspectRatio": 1.6241,
+      "webPath": "/images/sin-fondo-plantas/trimmed/Flor de las 11.png"
+    }
+  },
+  "macetas": {
+    "Florero Pata de Gato.png": {
+      "originalFilename": "Florero Pata de Gato.png",
+      "normalizedFilename": "Florero Pata de Gato.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        208,
+        77,
+        365,
+        367
+      ],
+      "trimmedWidth": 157,
+      "trimmedHeight": 290,
+      "aspectRatio": 0.5414,
+      "webPath": "/images/sin-fondo-macetas/trimmed/Florero Pata de Gato.png"
+    },
+    "Maceta Carrito Van Retro.png": {
+      "originalFilename": "Maceta Carrito Van Retro.png",
+      "normalizedFilename": "Maceta Carrito Van Retro.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        52,
+        36,
+        540,
+        421
+      ],
+      "trimmedWidth": 488,
+      "trimmedHeight": 385,
+      "aspectRatio": 1.2675,
+      "webPath": "/images/sin-fondo-macetas/trimmed/Maceta Carrito Van Retro.png"
+    },
+    "Maceta Casa Hongo Encantada.png": {
+      "originalFilename": "Maceta Casa Hongo Encantada.png",
+      "normalizedFilename": "Maceta Casa Hongo Encantada.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        106,
+        52,
+        468,
+        416
+      ],
+      "trimmedWidth": 362,
+      "trimmedHeight": 364,
+      "aspectRatio": 0.9945,
+      "webPath": "/images/sin-fondo-macetas/trimmed/Maceta Casa Hongo Encantada.png"
+    },
+    "Maceta Concha Orgánica.png": {
+      "originalFilename": "Maceta Concha Orgánica.png",
+      "normalizedFilename": "Maceta Concha Orgánica.png",
+      "originalWidth": 500,
+      "originalHeight": 500,
+      "bbox": [
+        95,
+        162,
+        413,
+        406
+      ],
+      "trimmedWidth": 318,
+      "trimmedHeight": 244,
+      "aspectRatio": 1.3033,
+      "webPath": "/images/sin-fondo-macetas/trimmed/Maceta Concha Orgánica.png"
+    },
+    "Maceta Vasija Curva.png": {
+      "originalFilename": "Maceta Vasija Curva.png",
+      "normalizedFilename": "Maceta Vasija Curva.png",
+      "originalWidth": 500,
+      "originalHeight": 500,
+      "bbox": [
+        63,
+        161,
+        422,
+        469
+      ],
+      "trimmedWidth": 359,
+      "trimmedHeight": 308,
+      "aspectRatio": 1.1656,
+      "webPath": "/images/sin-fondo-macetas/trimmed/Maceta Vasija Curva.png"
+    },
+    "Maceta Vasija Estilo Barro Colgante.png": {
+      "originalFilename": "Maceta Vasija Estilo Barro Colgante.png",
+      "normalizedFilename": "Maceta Vasija Estilo Barro Colgante.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        90,
+        25,
+        483,
+        407
+      ],
+      "trimmedWidth": 393,
+      "trimmedHeight": 382,
+      "aspectRatio": 1.0288,
+      "webPath": "/images/sin-fondo-macetas/trimmed/Maceta Vasija Estilo Barro Colgante.png"
+    },
+    "canastas.png": {
+      "originalFilename": "canastas.png",
+      "normalizedFilename": "canastas.png",
+      "originalWidth": 500,
+      "originalHeight": 500,
+      "bbox": [
+        39,
+        177,
+        463,
+        433
+      ],
+      "trimmedWidth": 424,
+      "trimmedHeight": 256,
+      "aspectRatio": 1.6562,
+      "webPath": "/images/sin-fondo-macetas/trimmed/canastas.png"
+    },
+    "carro-sin-fondo.png": {
+      "originalFilename": "carro-sin-fondo.png",
+      "normalizedFilename": "carro-sin-fondo.png",
+      "originalWidth": 542,
+      "originalHeight": 461,
+      "bbox": [
+        101,
+        106,
+        466,
+        401
+      ],
+      "trimmedWidth": 365,
+      "trimmedHeight": 295,
+      "aspectRatio": 1.2373,
+      "webPath": "/images/sin-fondo-macetas/trimmed/carro-sin-fondo.png"
+    },
+    "corazon.png": {
+      "originalFilename": "corazon.png",
+      "normalizedFilename": "corazon.png",
+      "originalWidth": 500,
+      "originalHeight": 500,
+      "bbox": [
+        100,
+        148,
+        410,
+        413
+      ],
+      "trimmedWidth": 310,
+      "trimmedHeight": 265,
+      "aspectRatio": 1.1698,
+      "webPath": "/images/sin-fondo-macetas/trimmed/corazon.png"
+    },
+    "tetera.png": {
+      "originalFilename": "tetera.png",
+      "normalizedFilename": "tetera.png",
+      "originalWidth": 578,
+      "originalHeight": 432,
+      "bbox": [
+        82,
+        95,
+        492,
+        397
+      ],
+      "trimmedWidth": 410,
+      "trimmedHeight": 302,
+      "aspectRatio": 1.3576,
+      "webPath": "/images/sin-fondo-macetas/trimmed/tetera.png"
+    }
+  }
+}

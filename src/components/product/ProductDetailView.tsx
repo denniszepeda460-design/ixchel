@@ -50,7 +50,8 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
     .filter((p) => p.id !== product.id)
     .slice(0, 3);
 
-  const whatsappInquiryMessage = `¡Hola Ixchel! \u{1F335} Estoy interesado en la *${product.name}* (Color: ${selectedColor}, ${formatPrice(product.price)}). ¿Tienen disponibilidad inmediata para entrega?`;
+  const formattedPrice = product.priceDisplay || formatPrice(product.price);
+  const whatsappInquiryMessage = `¡Hola Ixchel! \u{1F335} Estoy interesado en la *${product.name}* (Color: ${selectedColor}, ${formattedPrice}). ¿Tienen disponibilidad inmediata para entrega?`;
 
   return (
     <div className="min-h-screen bg-crema pb-24">
@@ -160,15 +161,15 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
               {/* Precio */}
               <div className="mt-4 flex flex-wrap items-baseline gap-3">
-                <span className="text-3xl sm:text-4xl font-extrabold text-terracotta font-sans">
-                  {formatPrice(product.price)}
+                <span className="text-2xl sm:text-4xl font-extrabold text-terracotta font-sans">
+                  {product.priceDisplay || formatPrice(product.price)}
                 </span>
-                {product.onSale && product.regularPrice && (
+                {product.onSale && product.regularPrice && !product.priceDisplay && (
                   <span className="text-xl sm:text-2xl text-tierra-light line-through font-normal">
                     {formatPrice(product.regularPrice)}
                   </span>
                 )}
-                {product.onSale && discount && (
+                {product.onSale && discount && !product.priceDisplay && (
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-terracotta/10 text-terracotta border border-terracotta/30">
                     Ahorra {discount}%
                   </span>
@@ -341,6 +342,8 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   >
                     {justAdded
                       ? "¡Agregado al carrito!"
+                      : product.priceDisplay
+                      ? `Agregar al Carrito • ${product.priceDisplay}`
                       : `Agregar al Carrito • ${formatPrice(product.price * quantity)}`}
                   </Button>
                 </div>

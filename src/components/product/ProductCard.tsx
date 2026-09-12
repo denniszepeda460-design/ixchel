@@ -97,10 +97,10 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
               Precio
             </span>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl font-bold text-terracotta font-sans">
-                {formatPrice(product.price)}
+              <span className={`${product.priceDisplay ? "text-sm" : "text-xl"} font-bold text-terracotta font-sans`}>
+                {product.priceDisplay || formatPrice(product.price)}
               </span>
-              {product.onSale && product.regularPrice && (
+              {product.onSale && product.regularPrice && !product.priceDisplay && (
                 <span className="text-xs text-tierra-light line-through font-normal">
                   {formatPrice(product.regularPrice)}
                 </span>

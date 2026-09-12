@@ -10,7 +10,8 @@ export interface Plant {
   sizeLabel: string;
   price: number;
   description: string;
-  image: string; // Transparent botanical layer
+  image: string;
+  transparentImage?: string; // Versión con fondo transparente recortado en /images/sin-fondo-plantas/trimmed/
   recommendedPlanterCategory: ("pequena" | "mediana" | "grande" | "colgante")[];
   careTip: string;
 }
@@ -37,101 +38,84 @@ export interface SurpriseCombo {
 }
 
 export const availablePlants: Plant[] = [
+  // 1. Callisia Pink
   {
-    id: "planta-echeveria",
-    name: "Suculenta Echeveria",
-    subtitle: "Roseta compacta verde jade con puntas rosadas",
+    id: "planta-callisia",
+    name: "Callisia Pink",
+    subtitle: "Follaje tapizante y péndulo con destellos rosas y verdes",
+    size: "pequena",
+    sizeLabel: "Pequeña (Colgante)",
+    price: 2.0,
+    description:
+      "Ramas densas de hojas diminutas variegadas que desbordan con gracia sobre los bordes de la maceta.",
+    image: "/images/sin-fondo-plantas/trimmed/Callisia Pink.png",
+    transparentImage: "/images/sin-fondo-plantas/trimmed/Callisia Pink.png",
+    recommendedPlanterCategory: ["pequena", "colgante"],
+    careTip: "Luz tamizada y riego cuando la superficie del sustrato esté seca.",
+  },
+
+  // 2. Echeveria Ives Fred Monstruosa
+  {
+    id: "planta-fred-ives",
+    name: "Echeveria Ives Fred Monstruosa",
+    subtitle: "Suculenta escultórica de hojas alargadas tornasol",
+    size: "mediana",
+    sizeLabel: "Mediana (Escultórica)",
+    price: 2.25,
+    description:
+      "Variedad de colección con crecimiento exótico y tonalidades cobrizas y verdosas muy atractivas.",
+    image: "/images/sin-fondo-plantas/trimmed/Echeveria Ives Fred Monstruosa.png",
+    transparentImage: "/images/sin-fondo-plantas/trimmed/Echeveria Ives Fred Monstruosa.png",
+    recommendedPlanterCategory: ["mediana", "pequena"],
+    careTip: "Buena aireación y sustrato mineral con drenaje óptimo.",
+  },
+
+  // 3. Echeveria Lilac Mist
+  {
+    id: "planta-echeveria-lilac",
+    name: "Echeveria Lilac Mist",
+    subtitle: "Crasa compacta con hojas carnosas color niebla lila",
     size: "pequena",
     sizeLabel: "Pequeña (Compacta)",
+    price: 1.75,
+    description:
+      "Hojas pruinosas agrupadas en roseta geométrica de porte limpio y tonos pastel.",
+    image: "/images/sin-fondo-plantas/trimmed/Echeveria Lilac Mist.png",
+    transparentImage: "/images/sin-fondo-plantas/trimmed/Echeveria Lilac Mist.png",
+    recommendedPlanterCategory: ["pequena", "colgante"],
+    careTip: "Regar directo al sustrato sin encharcar el cogollo central.",
+  },
+
+  // 4. Echeveria Serena
+  {
+    id: "planta-echeveria",
+    name: "Echeveria Serena",
+    subtitle: "Roseta carnosa en tonos lila y lavanda pastel",
+    size: "pequena",
+    sizeLabel: "Pequeña (Roseta)",
     price: 1.5,
-    description: "Crasa noble de crecimiento contenido. Perfecta para macetas bajas y cuencos decorativos.",
-    image: "/images/plants/echeveria.svg",
+    description:
+      "Crasa noble de crecimiento contenido y simetría tornasolada. Perfecta para cuencos y macetas bajas.",
+    image: "/images/sin-fondo-plantas/trimmed/Echeveria Serena.png",
+    transparentImage: "/images/sin-fondo-plantas/trimmed/Echeveria Serena.png",
     recommendedPlanterCategory: ["pequena", "colgante"],
     careTip: "Riego cada 10 a 14 días cuando la tierra esté seca al tacto.",
   },
+
+  // 5. Flor de las 11
   {
-    id: "planta-cactus",
-    name: "Mini Cactus San Pedro",
-    subtitle: "Cuerpo estriado vertical con floración estival",
+    id: "planta-flor-11",
+    name: "Flor de las 11",
+    subtitle: "Portulaca rastrera con flores diurnas de tonos cálidos",
     size: "pequena",
-    sizeLabel: "Pequeña (Vertical)",
+    sizeLabel: "Pequeña (Floración)",
     price: 1.5,
-    description: "Estructura geométrica limpia que añade altura sin requerir gran volumen radicular.",
-    image: "/images/plants/cactus.svg",
-    recommendedPlanterCategory: ["pequena"],
-    careTip: "Luz solar indirecta abundante y riego muy espaciado.",
-  },
-  {
-    id: "planta-haworthia",
-    name: "Haworthia Cebra",
-    subtitle: "Hojas carnosas con franjas blancas en relieve",
-    size: "pequena",
-    sizeLabel: "Pequeña (Robusta)",
-    price: 1.75,
-    description: "Muy resistente a interiores. Sus líneas blancas combinan en contraste con macetas artesanales.",
-    image: "/images/plants/haworthia.svg",
+    description:
+      "Tapiz botánico alegre con botones que abren hacia el mediodía regalando color continuo a tu espacio.",
+    image: "/images/sin-fondo-plantas/trimmed/Flor de las 11.png",
+    transparentImage: "/images/sin-fondo-plantas/trimmed/Flor de las 11.png",
     recommendedPlanterCategory: ["pequena", "colgante"],
-    careTip: "Tolera semisombra; mantener el sustrato drenante.",
-  },
-  {
-    id: "planta-sedum",
-    name: "Sedum Burrito",
-    subtitle: "Tallos colgantes con hojitas carnosas tipo cuentas",
-    size: "pequena",
-    sizeLabel: "Pequeña (Colgante)",
-    price: 1.5,
-    description: "Genera un efecto cascada suave que desborda con gracia sobre los bordes de la maceta.",
-    image: "/images/plants/sedum.svg",
-    recommendedPlanterCategory: ["pequena", "colgante"],
-    careTip: "Evitar manipular las hojas directamente para no desprenderlas.",
-  },
-  {
-    id: "planta-string-of-hearts",
-    name: "String of Hearts",
-    subtitle: "Enredadera fina de hojas en forma de corazón",
-    size: "pequena",
-    sizeLabel: "Pequeña / Colgante",
-    price: 2.0,
-    description: "Guías delicadas de tonos plateados y púrpura que caen libremente creando un velo botánico.",
-    image: "/images/plants/string-of-hearts.svg",
-    recommendedPlanterCategory: ["colgante", "pequena"],
-    careTip: "Excelente para estantes altos o macetas de pared.",
-  },
-  {
-    id: "planta-peperomia",
-    name: "Peperomia Sandía",
-    subtitle: "Hojas ovaladas con franjas plateadas y tallos rojizos",
-    size: "mediana",
-    sizeLabel: "Mediana (Follaje)",
-    price: 2.5,
-    description: "Follaje denso y decorativo de copa redondeada. Exige mayor profundidad de cepellón.",
-    image: "/images/plants/peperomia.svg",
-    recommendedPlanterCategory: ["mediana"],
-    careTip: "Mantener humedad ambiental sin encharcar las raíces.",
-  },
-  {
-    id: "planta-pothos",
-    name: "Pothos Dorado",
-    subtitle: "Hojas acorazonadas variegadas con destellos amarillos",
-    size: "mediana",
-    sizeLabel: "Mediana (Vigorosa)",
-    price: 2.5,
-    description: "Planta trepadora o colgante sumamente adaptable. Desarrolla rápido su sistema radicular.",
-    image: "/images/plants/pothos.svg",
-    recommendedPlanterCategory: ["mediana", "colgante"],
-    careTip: "Crece vigorosamente con riego semanal y buena luz difusa.",
-  },
-  {
-    id: "planta-sansevieria",
-    name: "Sansevieria Laurentii",
-    subtitle: "Espadas verticales verdes con margen amarillo dorado",
-    size: "grande",
-    sizeLabel: "Grande (Arquitectónica)",
-    price: 3.5,
-    description: "Porte majestuoso y purificadora de aire. Requiere macetas firmes y amplias para anclarse.",
-    image: "/images/plants/sansevieria.svg",
-    recommendedPlanterCategory: ["mediana", "grande"],
-    careTip: "Casi indestructible; regar únicamente cuando el sustrato esté seco.",
+    careTip: "Ama el sol y temperaturas templadas; regar con moderación.",
   },
 ];
 
@@ -163,12 +147,12 @@ export function evaluateCombo(plant: Plant, planter: Product): ComboEvaluation {
       title: "Aviso de Compatibilidad",
       message:
         "Esta planta tiende a crecer más de lo que esta maceta permite cómodamente — sus raíces podrían quedar apretadas con el tiempo.",
-      suggestedPlant: "Suculenta Echeveria, Haworthia Cebra o Sedum Burrito",
-      suggestedPlanter: "Combo Cestas Trenzadas, Vasija Curva Set o Cesta Grande",
+      suggestedPlant: "Echeveria Serena, Echeveria Lilac Mist o Flor de las 11",
+      suggestedPlanter: "Combo Cestas Trenzadas, Vasija Curva Set o Maceta Carrito Van Retro",
     };
   }
 
-  // 3. Planta Grande en Maceta Pequeña o Mediana
+  // 3. Planta Grande en Maceta Pequeña o Mediana (Por si se añaden especies grandes a futuro)
   if (plant.size === "grande") {
     if (planterCat === "pequena" || planterCat === "colgante") {
       return {
@@ -178,182 +162,283 @@ export function evaluateCombo(plant: Plant, planter: Product): ComboEvaluation {
         title: "Capacidad Reducida",
         message:
           "Esta especie desarrolla tallos pesados y raíces profundas. En esta maceta pequeña podría desestabilizarse o requerir trasplante a corto plazo.",
-        suggestedPlant: "Mini Cactus San Pedro o Haworthia Cebra",
-        suggestedPlanter: "Combo Cestas Trenzadas o Cesta Grande Trenzada",
+        suggestedPlant: "Echeveria Serena, Callisia Pink o Flor de las 11",
+        suggestedPlanter: "Maceta Vasija Estilo Barro o Cesta Grande Trenzada",
       };
     }
     return {
       isIdeal: true,
       status: "ideal",
-      badgeText: "Ajuste viable",
-      title: "Aceptable con Mantenimiento",
+      badgeText: "Combinación equilibrada",
+      title: "Desarrollo Óptimo",
       message:
-        "La planta cabe bien en este tamaño, aunque recomendamos poda ligera de raíces o trasplante en el transcurso de un año.",
+        "Maceta espaciosa que ofrece suficiente anclaje para una planta de porte majestuoso.",
     };
   }
 
   return {
     isIdeal: true,
     status: "ideal",
-    badgeText: "Combinación viable",
-    title: "Buena Elección",
+    badgeText: "Armonía Botánica",
+    title: "Buena Compatibilidad",
     message: "Esta combinación es armoniosa para decorar tu hogar y cuidar de tus plantas.",
   };
 }
 
-// 15 Combos Pre-armados y Pre-aprobados para el Modo Sorpresa
+// 15 Combos Pre-armados y Pre-aprobados para el Modo Sorpresa (Exclusivamente con las 5 especies reales de Ixchel)
 export const surpriseCombos: SurpriseCombo[] = [
   {
     id: "sorpresa-viajero-vintage",
     name: "El Viajero Vintage",
-    tagline: "Suculenta Echeveria sobre Maceta Auto Retro",
+    tagline: "Echeveria Serena sobre Maceta Auto Retro",
     plantId: "planta-echeveria",
     planterSlug: "maceta-auto-retro",
     comboPrice: 5.0,
     badge: "Favorito Clásico",
-    description: "Una roseta compacta que corona el asiento del auto clásico, creando una atmósfera nostálgica y encantadora.",
+    description:
+      "Una roseta compacta que corona el asiento del auto clásico, creando una atmósfera nostálgica y encantadora.",
   },
   {
     id: "sorpresa-hogar-hadas",
     name: "Hogar de Hadas Encantado",
-    tagline: "Mini Cactus San Pedro en Maceta Casa Hongo",
-    plantId: "planta-cactus",
+    tagline: "Flor de las 11 en Maceta Casa Hongo",
+    plantId: "planta-flor-11",
     planterSlug: "maceta-casa-hongo",
     comboPrice: 4.49,
     badge: "Mágico",
-    description: "El mini cactus asoma por el techo de hongo como una chimenea viva en esta casita de cuento.",
+    description:
+      "La alegre floración diurna asoma sobre la techumbre de hongo como un destello vivo en esta casita de cuento.",
   },
   {
     id: "sorpresa-brisa-marina",
     name: "Brisa Marina Costera",
-    tagline: "Sedum Burrito en Maceta Concha Orgánica",
-    plantId: "planta-sedum",
+    tagline: "Echeveria Lilac Mist en Maceta Concha Orgánica",
+    plantId: "planta-echeveria-lilac",
     planterSlug: "maceta-concha-organica",
-    comboPrice: 4.0,
+    comboPrice: 4.25,
     badge: "Costero",
-    description: "Las cuentas carnosas del sedum caen suavemente sobre el contorno nacarado de la concha marina.",
+    description:
+      "Los tonos niebla lila de la roseta parecen una perla botánica anidada en el cuenco protector de la caracola marina.",
   },
   {
     id: "sorpresa-ruta-camper",
     name: "Ruta Camper Bohemia",
-    tagline: "Haworthia Cebra en Maceta Carrito Van Retro",
-    plantId: "planta-haworthia",
+    tagline: "Flor de las 11 en Maceta Carrito Van Retro",
+    plantId: "planta-flor-11",
     planterSlug: "maceta-carrito-van-retro",
-    comboPrice: 5.25,
+    comboPrice: 5.0,
     badge: "Aventura",
-    description: "Una furgoneta lista para rodar con una resistente haworthia que simula equipaje verde en el techo.",
+    description:
+      "Una furgoneta lista para rodar con botones florales vivos que aportan alegría y color a cualquier rincón.",
   },
   {
     id: "sorpresa-canasto-natural",
     name: "Canasto Botánico Rústico",
-    tagline: "Peperomia Sandía en Cesta Grande Trenzada",
-    plantId: "planta-peperomia",
+    tagline: "Callisia Pink en Cesta Grande Trenzada",
+    plantId: "planta-callisia",
     planterSlug: "cesta-grande-trenzada",
-    comboPrice: 6.49,
+    comboPrice: 5.99,
     badge: "Elegancia Natural",
-    description: "Las hojas rayadas de la peperomia llenan generosamente el tazón trenzado con textura de mimbre.",
+    description:
+      "El follaje rosado y denso de la callisia llena generosamente el tazón trenzado con textura de mimbre artesanal.",
   },
   {
-    id: "sorpresa-cascada-corazones",
-    name: "Cascada de Amor Familiar",
-    tagline: "String of Hearts en Maceta Vasija Estilo Barro Colgante",
-    plantId: "planta-string-of-hearts",
+    id: "sorpresa-cascada-amor",
+    name: "Cascada de Amor Colgante",
+    tagline: "Callisia Pink en Maceta Vasija Estilo Barro Colgante",
+    plantId: "planta-callisia",
     planterSlug: "maceta-vasija-estilo-barro",
     comboPrice: 5.99,
     badge: "Colgante",
-    description: "Guías con hojas en forma de corazón que se derraman sobre el relieve tradicional en barro.",
+    description:
+      "Ramas delicadas de tonalidades rosa pastel que se derraman con gracia sobre el relieve tradicional en barro.",
   },
   {
-    id: "sorpresa-serenidad-curva",
-    name: "Serenidad Orgánica",
-    tagline: "Pothos Dorado en Maceta Vasija Curva (Set L/S)",
-    plantId: "planta-pothos",
+    id: "sorpresa-escultura-curva",
+    name: "Escultura Serena Curva",
+    tagline: "Echeveria Ives Fred Monstruosa en Maceta Vasija Curva",
+    plantId: "planta-fred-ives",
     planterSlug: "maceta-vasija-curva",
-    comboPrice: 6.49,
+    comboPrice: 6.24,
     badge: "Zen",
-    description: "Hojas acorazonadas que contrastan con las curvas suaves y la boca ondulada de la vasija blanca.",
+    description:
+      "Crecimiento escultórico exótico que resalta con elegancia pura frente a las líneas suaves de la vasija blanca.",
   },
   {
     id: "sorpresa-duo-rustico",
     name: "Dúo Silvestre en Cestas",
-    tagline: "Suculenta Echeveria en Combo Cestas Trenzadas",
+    tagline: "Echeveria Serena en Combo Cestas Trenzadas",
     plantId: "planta-echeveria",
     planterSlug: "combo-cestas-trenzadas",
     comboPrice: 6.5,
     badge: "Set Dúo",
-    description: "Textura de canasta tradicional con plantas carnosas que alegran escritorios y recibidores.",
+    description:
+      "Textura de canasta tradicional con rosetas carnosas que alegran escritorios y recibidores familiares.",
   },
   {
     id: "sorpresa-nido-silvestre",
     name: "Nido Silvestre Mini",
-    tagline: "Haworthia Cebra en Cesta Pequeña Trenzada",
-    plantId: "planta-haworthia",
+    tagline: "Echeveria Lilac Mist en Cesta Pequeña Trenzada",
+    plantId: "planta-echeveria-lilac",
     planterSlug: "cesta-pequena-trenzada",
     comboPrice: 3.25,
     badge: "Mini Detalle",
-    description: "Un formato íntimo y dulce para espacios reducidos o regalo botánico sorpresa.",
+    description:
+      "Un formato íntimo y dulce para espacios reducidos o regalo botánico sorpresa.",
   },
   {
     id: "sorpresa-oasis-felino",
-    name: "Tributo Gatuno Silvestre",
-    tagline: "String of Hearts en Florero Pata de Gato",
-    plantId: "planta-string-of-hearts",
+    name: "Tributo Gatuno Botánico",
+    tagline: "Echeveria Serena en Florero Pata de Gato",
+    plantId: "planta-echeveria",
     planterSlug: "florero-pata-de-gato",
-    comboPrice: 3.99,
-    badge: "Mascotas",
-    description: "Tallos sutiles que surgen de la huella felina, un homenaje a los compañeros de cuatro patas.",
+    comboPrice: 3.49,
+    badge: "Pet Friendly",
+    description:
+      "El toque tierno y juguetón de la patita de gato coronada por una simétrica roseta lila pastel.",
   },
   {
-    id: "sorpresa-jardin-hadas",
-    name: "Jardín Secreto de Hadas",
-    tagline: "Haworthia Cebra en Maceta Casa Hongo Encantada",
-    plantId: "planta-haworthia",
+    id: "sorpresa-bosque-niebla",
+    name: "Bosque Encantado en Casa",
+    tagline: "Echeveria Lilac Mist en Maceta Casa Hongo",
+    plantId: "planta-echeveria-lilac",
     planterSlug: "maceta-casa-hongo",
     comboPrice: 4.74,
-    badge: "Cuento Vivo",
-    description: "Las líneas de la haworthia imitan pinos mágicos junto a la puerta de la casita hongo.",
+    badge: "Fantasía",
+    description:
+      "La roseta compacta niebla lila brota sobre la techumbre de hongo creando un rincón de ensueño.",
   },
   {
-    id: "sorpresa-perla-costera",
-    name: "Perla de la Costa",
-    tagline: "Suculenta Echeveria en Maceta Concha Orgánica",
+    id: "sorpresa-safari-camper",
+    name: "Safari Botánico Van",
+    tagline: "Echeveria Ives Fred Monstruosa en Maceta Carrito Van Retro",
+    plantId: "planta-fred-ives",
+    planterSlug: "maceta-carrito-van-retro",
+    comboPrice: 5.75,
+    badge: "Explorador",
+    description:
+      "Porte audaz y silueta llamativa en una van clásica lista para conquistar tu repisa favorita.",
+  },
+  {
+    id: "sorpresa-corazon-rosa",
+    name: "Amor Botánico Callisia",
+    tagline: "Callisia Pink en Maceta Corazón",
+    plantId: "planta-callisia",
+    planterSlug: "maceta-corazon",
+    comboPrice: 3.5,
+    badge: "Romántico",
+    description:
+      "Destellos rosados y hojas menudas que coronan la silueta de corazón, el detalle perfecto para regalar amor.",
+  },
+  {
+    id: "sorpresa-jardin-concha",
+    name: "Jardín Marino de Rosetas",
+    tagline: "Echeveria Serena en Maceta Concha Orgánica",
     plantId: "planta-echeveria",
     planterSlug: "maceta-concha-organica",
     comboPrice: 4.0,
-    badge: "Mar y Tierra",
-    description: "Una roseta perfecta reposando en el cuenco de la caracola marina curada al sol.",
+    badge: "Playa & Sol",
+    description:
+      "La roseta de echeveria parece una perla vegetal anidada en el cuenco protector de la caracola marina.",
   },
   {
-    id: "sorpresa-aventura-van",
-    name: "Viaje Botánico Rodante",
-    tagline: "Mini Cactus San Pedro en Maceta Carrito Van Retro",
-    plantId: "planta-cactus",
-    planterSlug: "maceta-carrito-van-retro",
-    comboPrice: 5.0,
-    badge: "Aventura",
-    description: "Un cactus erguido que viaja en la furgoneta clásica rumbo a nuevos horizontes verdes.",
-  },
-  {
-    id: "sorpresa-bosque-rustico",
-    name: "Bosque Artesanal en Tazón",
-    tagline: "Pothos Dorado en Cesta Grande Trenzada",
-    plantId: "planta-pothos",
-    planterSlug: "cesta-grande-trenzada",
-    comboPrice: 6.49,
-    badge: "Frondoso",
-    description: "Volumen verde abundante contenido en un tazón trenzado que evoca la cestería de pueblo.",
-  },
-  {
-    id: "sorpresa-reliquia-retro",
-    name: "Reliquia Verde de Colección",
-    tagline: "Sedum Burrito en Maceta Auto Retro",
-    plantId: "planta-sedum",
-    planterSlug: "maceta-auto-retro",
-    comboPrice: 5.0,
-    badge: "Colección",
-    description: "El auto vintage transportando un cargamento de brotes frescos de sedum en su cabina.",
+    id: "sorpresa-tarde-de-te",
+    name: "Tarde Botánica de Té",
+    tagline: "Flor de las 11 en Maceta Tetera",
+    plantId: "planta-flor-11",
+    planterSlug: "maceta-tetera",
+    comboPrice: 6.0,
+    badge: "Edición Especial",
+    description:
+      "Flores alegres que brotan del interior de la tetera artesanal, evocando sobremesas acogedoras y cálidas.",
   },
 ];
+
+export interface PlanterVisualProfile {
+  baseWidth: number;
+  overlapRatio: number;
+  xOffsetRatio: number;
+  scaleMultiplier?: number;
+}
+
+export const PLANTER_VISUAL_PROFILE: Record<string, PlanterVisualProfile> = {
+  "maceta-auto-retro": { baseWidth: 200, overlapRatio: 0.28, xOffsetRatio: -0.04 },
+  "combo-cestas-trenzadas": { baseWidth: 220, overlapRatio: 0.40, xOffsetRatio: -0.18, scaleMultiplier: 0.70 },
+  "maceta-vasija-curva": { baseWidth: 200, overlapRatio: 0.35, xOffsetRatio: 0 },
+  "maceta-vasija-estilo-barro": { baseWidth: 200, overlapRatio: 0.22, xOffsetRatio: 0 },
+  "maceta-carrito-van-retro": { baseWidth: 205, overlapRatio: 0.35, xOffsetRatio: -0.02 },
+  "florero-pata-de-gato": { baseWidth: 110, overlapRatio: 0.12, xOffsetRatio: 0 },
+  "maceta-casa-hongo": { baseWidth: 195, overlapRatio: 0.22, xOffsetRatio: 0 },
+  "maceta-concha-organica": { baseWidth: 205, overlapRatio: 0.36, xOffsetRatio: -0.12 },
+  "maceta-corazon": { baseWidth: 200, overlapRatio: 0.35, xOffsetRatio: 0 },
+  "maceta-tetera": { baseWidth: 205, overlapRatio: 0.27, xOffsetRatio: 0 },
+};
+
+export const PLANT_ASPECT_RATIOS: Record<string, number> = {
+  "planta-callisia": 1.468,
+  "planta-fred-ives": 1.336,
+  "planta-echeveria-lilac": 0.986,
+  "planta-echeveria": 1.139,
+  "planta-flor-11": 1.624,
+};
+
+export const PLANTER_ASPECT_RATIOS: Record<string, number> = {
+  "maceta-auto-retro": 1.237,
+  "combo-cestas-trenzadas": 1.656,
+  "maceta-vasija-curva": 1.166,
+  "maceta-vasija-estilo-barro": 1.029,
+  "maceta-carrito-van-retro": 1.268,
+  "florero-pata-de-gato": 0.541,
+  "maceta-casa-hongo": 0.995,
+  "maceta-concha-organica": 1.303,
+  "maceta-corazon": 1.170,
+  "maceta-tetera": 1.358,
+};
+
+export function calculateComboComposition(
+  plant: Plant,
+  planter: Product,
+  scale: number = 1.0
+) {
+  const profile = PLANTER_VISUAL_PROFILE[planter.slug] || {
+    baseWidth: 200,
+    overlapRatio: 0.25,
+    xOffsetRatio: 0,
+  };
+
+  const planterAspect = PLANTER_ASPECT_RATIOS[planter.slug] || 1.2;
+  const planterVisualWidth = Math.round(profile.baseWidth * scale);
+  const planterVisualHeight = Math.round(planterVisualWidth / planterAspect);
+
+  const text = `${planter.dimensions?.width || ""} ${planter.dimensions?.diameter || ""} ${planter.dimensions?.formatted || ""}`;
+  const match = text.match(/([\d.]+)\s*cm/i);
+  const planterWidthCm = match ? parseFloat(match[1]) : 9.5;
+
+  let plantNominalCm = 8.5;
+  if (plant.size === "pequena") plantNominalCm = 8.0;
+  else if (plant.size === "mediana") plantNominalCm = 10.5;
+  else if (plant.size === "grande") plantNominalCm = 13.5;
+
+  const rawRatio = plantNominalCm / Math.max(planterWidthCm, 5.0);
+  const multiplier = profile.scaleMultiplier || 1.0;
+  const plantScaleFactor = Math.min(Math.max(rawRatio * multiplier, 0.55), 1.30);
+
+  const plantAspect = PLANT_ASPECT_RATIOS[plant.id] || 1.2;
+  const plantVisualWidth = Math.round(planterVisualWidth * plantScaleFactor);
+  const plantVisualHeight = Math.round(plantVisualWidth / plantAspect);
+
+  const effectiveMarginBottom = Math.round(planterVisualHeight * profile.overlapRatio);
+  const effectiveXOffset = Math.round(planterVisualWidth * profile.xOffsetRatio);
+
+  return {
+    planterVisualWidth,
+    planterVisualHeight,
+    plantVisualWidth,
+    plantVisualHeight,
+    effectiveMarginBottom,
+    effectiveXOffset,
+  };
+}
 
 export function createComboCartProduct(
   plant: Plant,
@@ -361,38 +446,39 @@ export function createComboCartProduct(
   customName?: string,
   customPrice?: number
 ): Product {
-  const price = customPrice ?? Number((plant.price + planter.price).toFixed(2));
-  const name = customName ?? `Combo: ${plant.name} + ${planter.name}`;
+  const isPendingPrice = planter.priceDisplay !== undefined || planter.price === 0;
+  const calculatedPrice =
+    customPrice ?? (planter.price > 0 ? Number((plant.price + planter.price).toFixed(2)) : plant.price);
 
   return {
-    id: `combo-${plant.id}-${planter.id}-${Date.now()}`,
-    slug: planter.slug,
-    name,
-    subtitle: `Planta viva (${plant.name}) en maceta artesanal (${planter.name})`,
-    shortDescription: `Combo completo: incluye la planta ${plant.name} y la pieza artesanal ${planter.name}. Coordinación en punto de encuentro o envío seguro.`,
-    description: `Este combo une la belleza de la planta viva ${plant.name} con la maceta artesanal ${planter.name}. Diseñado en armonía para embellecer tu hogar desde el primer día.`,
-    price,
-    dimensions: {
-      ...planter.dimensions,
-      formatted: `${planter.dimensions.formatted} (Planta: ${plant.sizeLabel})`,
-      disclaimer: "Combo con planta viva. Se coordina preferentemente en punto de encuentro.",
-    },
+    id: `combo-${plant.id}-${planter.id}`,
+    slug: `combo-${plant.id}-${planter.id}`,
+    name: customName || `Combo: ${plant.name} + ${planter.name}`,
+    subtitle: `Planta viva aclimatada en maceta artesanal Ixchel`,
+    shortDescription: `Pareja botánica lista para decorar: ${plant.name} cultivada especialmente para la silueta de ${planter.name}.`,
+    description: `Combo especial preparado a mano por la familia Ixchel. Incluye la planta viva ${plant.name} y la maceta artesanal ${planter.name} con orificio de drenaje funcional calibrado.`,
+    price: calculatedPrice,
+    priceDisplay: isPendingPrice ? "[PENDIENTE: precio]" : undefined,
+    transparentImage: planter.transparentImage,
+    dimensions: planter.dimensions,
     finish: planter.finish,
-    finishLabel: `Combo Planta + ${planter.finishLabel}`,
+    finishLabel: `Acabado ${planter.finishLabel}`,
     colors: planter.colors,
     sizeCategory: planter.sizeCategory,
     sizeLabel: `Combo (${planter.sizeLabel})`,
     drainage: planter.drainage,
     includesSaucer: planter.includesSaucer,
     images: planter.images,
-    badge: "Combo Planta + Maceta",
+    badge: "Combo Botánico",
     featured: false,
     inStock: true,
-    craftProcess: planter.craftProcess,
+    craftProcess: `Selección de planta viva con cepellón sano, asentada en la maceta ${planter.name} con sustrato drenante.`,
     plantCare: {
-      ...planter.plantCare,
-      recommendedSpecies: plant.name,
-      careTip: `${plant.careTip} Asegúrate de que el sustrato mantenga buen drenaje en la ${planter.name}.`,
+      recommendedSpecies: `${plant.name} (${plant.subtitle})`,
+      light: "Luz brillante filtrada o sol suave de mañana.",
+      watering: plant.careTip,
+      substrate: "Sustrato específico para plantas de interior y crasas.",
+      careTip: plant.careTip,
     },
   };
 }
