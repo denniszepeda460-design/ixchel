@@ -15,7 +15,18 @@ import os
 import sys
 import json
 from pathlib import Path
-from PIL import Image
+
+# En entornos de CI/Vercel o si PIL no está instalado, salir limpiamente (código 0)
+# ya que las imágenes recortadas y el JSON ya están generados y versionados en Git.
+if os.environ.get("VERCEL") or os.environ.get("CI"):
+    print("[INFO] Entorno Vercel / CI detectado. Omitiendo auto-recorte (activos ya compilados en el repositorio).")
+    sys.exit(0)
+
+try:
+    from PIL import Image
+except ImportError:
+    print("[AVISO] PIL/Pillow no está instalado en este entorno. Omitiendo auto-recorte.")
+    sys.exit(0)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 

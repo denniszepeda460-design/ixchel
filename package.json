@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "python scripts/auto_trim_assets.py",
+    "trim-assets": "python scripts/auto_trim_assets.py",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
