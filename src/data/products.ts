@@ -155,7 +155,7 @@ export const products: Product[] = [
     description:
       "Inspirada en las tinajas tradicionales de nuestra tierra. El perfil redondeado ofrece una cámara radicular generosa y estable, mientras que el ribete superior ondulado enmarca con delicadeza cualquier follaje.",
     price: 3.99,
-    transparentImage: "/images/sin-fondo-macetas/trimmed/Maceta Vasija Curva.png",
+    transparentImage: "/images/sin-fondo-macetas/trimmed/maceta-vasija-curva.png",
     dimensions: {
       height: "Mold L: 6.3 cm / Mold S: 5.6 cm",
       diameter: "Mold L: 9.6 cm / Mold S: 8.4 cm",
@@ -200,7 +200,7 @@ export const products: Product[] = [
     description:
       "Un homenaje a la alfarería ancestral con vocación aérea. Sus pasadores laterales permiten suspenderla con mecate de yute o cordón de algodón natural, optimizando el espacio vertical de tu hogar.",
     price: 3.99,
-    transparentImage: "/images/sin-fondo-macetas/trimmed/Maceta Vasija Estilo Barro Colgante.png",
+    transparentImage: "/images/sin-fondo-macetas/trimmed/maceta-vasija-estilo-barro-colgante.png",
     dimensions: {
       height: "6.8 cm (2.68 in)",
       diameter: "8.3 cm (3.27 in)",
@@ -245,7 +245,7 @@ export const products: Product[] = [
     description:
       "Para espíritus viajeros y amantes de lo retro. Su amplia apertura superior permite sembrar varias suculentas en armonía, simulando un camper cargado de vida y aventura.",
     price: 3.5,
-    transparentImage: "/images/sin-fondo-macetas/trimmed/Maceta Carrito Van Retro.png",
+    transparentImage: "/images/sin-fondo-macetas/trimmed/maceta-carrito-van-retro.png",
     dimensions: {
       height: "5.6 cm (2.2 in)",
       diameter: "9.9 cm (3.9 in) de largo",
@@ -289,7 +289,7 @@ export const products: Product[] = [
     description:
       "Molde de silicona para crear piezas decorativas con relieve felino. Permite vaciar resina, yeso o cemento blanco con facilidad gracias a su flexibilidad y desmolde suave.",
     price: 1.99,
-    transparentImage: "/images/sin-fondo-macetas/trimmed/Florero Pata de Gato.png",
+    transparentImage: "/images/sin-fondo-macetas/trimmed/florero-pata-de-gato.png",
     dimensions: {
       height: "8.9 cm (3.5 in)",
       diameter: "6.2 cm (2.44 in)",
@@ -424,7 +424,7 @@ export const products: Product[] = [
     description:
       "Nuestra pieza más mágica. Su techo de hongo adornado con sutiles corazones corona una pequeña casita con ventana arqueada y puerta de cuento. La boca superior acoge una suculenta o helecho miniatura simulando la copa del hongo.",
     price: 2.99,
-    transparentImage: "/images/sin-fondo-macetas/trimmed/Maceta Casa Hongo Encantada.png",
+    transparentImage: "/images/sin-fondo-macetas/trimmed/maceta-casa-hongo-encantada.png",
     dimensions: {
       height: "7.6 cm (2.99 in)",
       diameter: "8.6 cm (3.38 in) de ancho",
@@ -468,7 +468,7 @@ export const products: Product[] = [
     description:
       "Inspirada en las conchas marinas de la costa salvadoreña. Su silueta envolvente ofrece un cuenco protector para especies de raíces superficiales, combinando belleza orgánica y funcionalidad.",
     price: 2.5,
-    transparentImage: "/images/sin-fondo-macetas/trimmed/Maceta Concha Orgánica.png",
+    transparentImage: "/images/sin-fondo-macetas/trimmed/maceta-concha-organica.png",
     dimensions: {
       height: "3.5 cm (1.38 in)",
       diameter: "12.5 cm (4.92 in) de largo · Prof. 6.1 cm (2.4 in)",

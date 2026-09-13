@@ -57,10 +57,13 @@ if sys.stdout.encoding.lower() != "utf-8":
 
 
 def clean_filename(name: str) -> str:
-    """Normaliza espacios duplicados o trailing antes de la extensión."""
+    """Normaliza nombres de archivo a kebab-case limpio sin acentos ni espacios."""
+    import unicodedata
+    import re
     stem, ext = os.path.splitext(name)
-    cleaned_stem = " ".join(stem.split()).strip()
-    return f"{cleaned_stem}{ext}"
+    stem = unicodedata.normalize("NFKD", stem).encode("ascii", "ignore").decode("utf-8")
+    stem = re.sub(r"[^a-zA-Z0-9]+", "-", stem).strip("-").lower()
+    return f"{stem}{ext.lower()}"
 
 
 def process_directory(target: dict, metadata_dict: dict):
