@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getFeaturedProducts } from "@/data/products";
+import { getFeaturedProducts, getPromotionalProducts } from "@/data/products";
 import ProductCard from "@/components/product/ProductCard";
 import Button from "@/components/ui/Button";
 import OrganicPattern from "@/components/ui/OrganicPattern";
@@ -13,10 +13,12 @@ import {
   Heart,
   InstagramLogo,
   CheckCircle,
+  Gift,
 } from "@phosphor-icons/react/dist/ssr";
 
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts().slice(0, 3);
+  const promotionalProducts = getPromotionalProducts();
 
   return (
     <div className="relative overflow-hidden">
@@ -229,53 +231,52 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. HISTORIA RESUMIDA */}
-      <section className="py-20 bg-crema border-b border-crema-dark/70">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 relative">
-              <div className="relative aspect-4/3 rounded-3xl overflow-hidden shadow-xl border-4 border-blanco-artesanal">
-                <Image
-                  src="/images/taller-alfarero.jpg"
-                  alt="Matrimonio Ixchel detrás de cada maceta"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
+      {/* 5. SECCIÓN PROMOCIONES (Reemplaza Nuestra Historia con formato de Creaciones Destacadas) */}
+      <section className="py-20 bg-crema-tint/40 border-b border-crema-dark/70 relative">
+        <OrganicPattern tone="salvia" opacity={0.05} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-salvia/15 border border-salvia/30 text-xs font-bold text-salvia-dark uppercase tracking-wider">
+                <Gift size={14} weight="bold" />
+                <span>Promoción Especial de Temporada</span>
               </div>
-            </div>
-
-            <div className="lg:col-span-6 space-y-6">
-              <span className="font-cursive text-3xl text-terracotta block">
-                Nuestra Historia
-              </span>
-
-              <h2 className="font-sans font-extrabold text-3xl sm:text-4xl text-tierra leading-tight">
-                De nuestras manos a tu rincón favorito
+              <h2 className="font-sans font-extrabold text-3xl sm:text-4xl text-tierra tracking-tight">
+                Promociones con Suculenta de Regalo
               </h2>
-
-              <p className="text-sm sm:text-base text-tierra-muted leading-relaxed font-sans">
-                Ixchel es el comienzo de una idea que nació en una pequeña mesa de
-                trabajo, en el patio de una casa, buscando macetas que reflejaran
-                el amor por las plantas: con alma propia y que respetaran sus
-                condiciones. Lo que empezó como el proyecto de una pareja un fin de
-                semana, hoy es un estudio dedicado a darle vida a espacios llenos de
-                plantas y a honrar nuestras raíces.
+              <p className="text-sm text-tierra-muted max-w-xl">
+                Piezas seleccionadas que incluyen una suculenta viva de obsequio cultivada con dedicación en nuestro estudio familiar, al mismo precio regular de la maceta.
               </p>
-
-              <p className="text-sm sm:text-base text-tierra-muted leading-relaxed font-sans">
-                Bautizamos el proyecto como <strong>Ixchel</strong>, por la deidad
-                maya de la luna y la fertilidad vegetal. Creemos que rodearse de
-                plantas vivas en macetas hechas con cariño transforma cualquier
-                espacio en un santuario de paz.
-              </p>
-
-              <div className="pt-2">
-                <Button href="/historia" variant="outline" size="md">
-                  Leer Historia Completa
-                </Button>
-              </div>
             </div>
+
+            <Link
+              href="/catalogo?promocion=true"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-salvia-dark hover:text-tierra transition-colors group"
+            >
+              <span>Ver todas las promociones</span>
+              <ArrowRight
+                size={16}
+                weight="bold"
+                className="group-hover:translate-x-1 transition-transform text-salvia-dark"
+              />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {promotionalProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button
+              href="/catalogo?promocion=true"
+              variant="outline"
+              size="md"
+              rightIcon={<ArrowRight size={16} weight="bold" />}
+            >
+              Explorar Promociones en Catálogo
+            </Button>
           </div>
         </div>
       </section>

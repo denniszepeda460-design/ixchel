@@ -44,6 +44,9 @@ export interface Product {
   onSale?: boolean;
   regularPrice?: number;
   salePrice?: number;
+  isPromotion?: boolean;
+  promotionBadge?: string;
+  promotionNote?: string;
   craftProcess: string;
   plantCare: PlantCare;
 }
@@ -219,7 +222,14 @@ export const products: Product[] = [
     sizeLabel: "Colgante (~8.3 x 6.8 cm)",
     drainage: "Orificio inferior funcional con drenaje activo.",
     includesSaucer: false,
-    images: ["/images/vacija_2.png"],
+    images: [
+      "/images/promociones/maceta-vasija-estilo-barro-colgante-promocion.jpg",
+      "/images/vacija_2.png",
+    ],
+    isPromotion: true,
+    promotionBadge: "Incluye Suculenta Gratis",
+    promotionNote:
+      "Promoción especial: incluye una suculenta viva de regalo en este mismo precio regular.",
     badge: "Apta para Colgar",
     featured: true,
     inStock: true,
@@ -263,7 +273,14 @@ export const products: Product[] = [
     sizeLabel: "Pequeña (9.9 x 5.6 cm)",
     drainage: "Drenaje funcional en la base para cuidar raíces.",
     includesSaucer: false,
-    images: ["/images/bus.png"],
+    images: [
+      "/images/promociones/maceta-carrito-van-retro-promocion.jpg",
+      "/images/bus.png",
+    ],
+    isPromotion: true,
+    promotionBadge: "Incluye Suculenta Gratis",
+    promotionNote:
+      "Promoción especial: incluye una suculenta viva de regalo en este mismo precio regular.",
     badge: "Edición Camper",
     featured: false,
     inStock: true,
@@ -442,7 +459,14 @@ export const products: Product[] = [
     sizeLabel: "Pequeña (8.6 x 7.6 cm)",
     drainage: "Orificio de drenaje calibrado en la base.",
     includesSaucer: false,
-    images: ["/images/casita.png"],
+    images: [
+      "/images/promociones/maceta-casa-hongo-encantada-promocion.jpg",
+      "/images/casita.png",
+    ],
+    isPromotion: true,
+    promotionBadge: "Incluye Suculenta Gratis",
+    promotionNote:
+      "Promoción especial: incluye una suculenta viva de regalo en este mismo precio regular.",
     badge: "Favorita del Estudio",
     featured: true,
     inStock: true,
@@ -609,4 +633,8 @@ export function getProductBySlug(slug: string): Product | undefined {
 
 export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.featured);
+}
+
+export function getPromotionalProducts(): Product[] {
+  return products.filter((p) => Boolean(p.isPromotion));
 }

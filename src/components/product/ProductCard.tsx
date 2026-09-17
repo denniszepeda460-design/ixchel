@@ -7,7 +7,7 @@ import { Product, getDiscountPercentage } from "@/data/products";
 import { formatPrice } from "@/config/site";
 import { useCartStore } from "@/store/cartStore";
 import Badge from "@/components/ui/Badge";
-import { ShoppingBag, Check } from "@phosphor-icons/react";
+import { ShoppingBag, Check, Gift } from "@phosphor-icons/react";
 import { triggerCartAnimation } from "@/lib/cartAnimation";
 
 interface ProductCardProps {
@@ -46,11 +46,17 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
-        {/* Badges flotantes (Descuento y Distintivo de Estudio) */}
+        {/* Badges flotantes (Descuento, Promoción y Distintivo de Estudio) */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
           {product.onSale && discount && (
             <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-terracotta text-white shadow-xs font-sans tracking-tight">
               -{discount}%
+            </span>
+          )}
+          {product.isPromotion && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-salvia text-white shadow-xs font-sans tracking-tight">
+              <Gift size={12} weight="bold" />
+              <span>{product.promotionBadge || "Incluye Suculenta Gratis"}</span>
             </span>
           )}
           {product.badge && (

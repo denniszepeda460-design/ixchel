@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   CaretRight,
   Sparkle,
+  Gift,
 } from "@phosphor-icons/react";
 import { triggerCartAnimation } from "@/lib/cartAnimation";
 
@@ -97,6 +98,12 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                     Oferta -{discount}%
                   </span>
                 )}
+                {product.isPromotion && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-salvia text-white shadow-md font-sans tracking-tight">
+                    <Gift size={14} weight="bold" />
+                    <span>{product.promotionBadge || "Incluye Suculenta Gratis"}</span>
+                  </span>
+                )}
                 {product.badge && (
                   <Badge variant="terracotta" className="bg-white/95 backdrop-blur-sm shadow-xs">
                     {product.badge}
@@ -149,6 +156,11 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="salvia">{product.finishLabel}</Badge>
                 <Badge variant="outline">{product.sizeLabel}</Badge>
+                {product.isPromotion && (
+                  <Badge variant="salvia" className="bg-salvia/20 text-salvia-dark border-salvia/40 font-bold">
+                    {product.promotionBadge || "Incluye Suculenta Gratis"}
+                  </Badge>
+                )}
               </div>
 
               <h1 className="font-sans font-extrabold text-3xl sm:text-4xl text-tierra tracking-tight">
@@ -178,6 +190,22 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   Precio unitario artesanal
                 </span>
               </div>
+
+              {/* Callout especial si la pieza está en promoción */}
+              {product.isPromotion && (
+                <div className="mt-4 p-3.5 rounded-2xl bg-salvia/15 border border-salvia/30 text-salvia-dark text-xs flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-salvia/20 flex items-center justify-center shrink-0 text-salvia-dark">
+                    <Gift size={18} weight="duotone" />
+                  </div>
+                  <div>
+                    <strong className="block font-bold text-tierra">¡Promoción Especial de Regalo!</strong>
+                    <span>
+                      {product.promotionNote ||
+                        "Esta pieza incluye una suculenta viva de obsequio en este mismo precio regular."}
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Descripción */}

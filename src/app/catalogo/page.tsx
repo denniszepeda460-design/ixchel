@@ -5,24 +5,32 @@ import { useSearchParams } from "next/navigation";
 import { products } from "@/data/products";
 import ProductCard from "@/components/product/ProductCard";
 import OrganicPattern from "@/components/ui/OrganicPattern";
-import { Funnel, Sparkle, CaretDown, Tag } from "@phosphor-icons/react";
+import { Funnel, Sparkle, CaretDown, Gift } from "@phosphor-icons/react";
 
 function CatalogContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("tamano") || searchParams.get("filtro") || "todas";
   const initialFinish = searchParams.get("acabado") || "todos";
-  const initialSale = searchParams.get("ofertas") === "true" || searchParams.get("liquidacion") === "true";
+  const initialPromotion =
+    searchParams.get("promocion") === "true" ||
+    searchParams.get("promociones") === "true" ||
+    searchParams.get("ofertas") === "true" ||
+    searchParams.get("liquidacion") === "true";
 
   const [selectedSize, setSelectedSize] = useState<string>(initialCategory);
   const [selectedFinish, setSelectedFinish] = useState<string>(initialFinish);
-  const [onlySale, setOnlySale] = useState<boolean>(initialSale);
+  const [onlyPromotion, setOnlyPromotion] = useState<boolean>(initialPromotion);
   const [selectedColors, setSelectedColors] = useState<string[]>(["Todos"]);
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<string>("destacados");
 
   useEffect(() => {
-    if (searchParams.get("ofertas") === "true" || searchParams.get("liquidacion") === "true") {
-      setOnlySale(true);
+    if (
+      searchParams.get("promocion") === "true" ||
+      searchParams.get("promociones") === "true" ||
+      searchParams.get("ofertas") === "true" ||
+      searchParams.get("liquidacion") === "true"
+    ) {
+      setOnlyPromotion(true);
     }
   }, [searchParams]);
 
@@ -49,16 +57,11 @@ function CatalogContent() {
   }, []);
 
   const sizes = [
-    { key: "todas", label: "Todos los tamaños" },
+    { key: "todas", label: "Todas" },
     { key: "pequena", label: "Pequeñas" },
     { key: "mediana", label: "Medianas" },
     { key: "grande", label: "Grandes" },
     { key: "colgante", label: "Colgantes" },
-  ];
-
-  const finishButtons = [
-    { key: "todos", label: "Todos los acabados" },
-    { key: "natural", label: "Acabado Natural" },
   ];
 
   const isAllColorsSelected =
@@ -114,33 +117,26 @@ function CatalogContent() {
         isAllColorsSelected || activeIndividualColors.length === 0
           ? true
           : p.colors?.some((c) => activeIndividualColors.includes(c));
-      const matchSale = onlySale ? Boolean(p.onSale) : true;
+      const matchPromotion = onlyPromotion ? Boolean(p.isPromotion) : true;
 
-      return matchSize && matchFinish && matchColors && matchSale;
+      return matchSize && matchFinish && matchColors && matchPromotion;
     });
 
-    if (sortBy === "precio-asc") {
-      result = [...result].sort((a, b) => a.price - b.price);
-    } else if (sortBy === "precio-desc") {
-      result = [...result].sort((a, b) => b.price - a.price);
-    } else if (sortBy === "destacados") {
-      result = [...result].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
-    }
-
-    return result;
-  }, [selectedSize, selectedFinish, isAllColorsSelected, activeIndividualColors, onlySale, sortBy]);
+    // Destacados primero por defecto
+    return [...result].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  }, [selectedSize, selectedFinish, isAllColorsSelected, activeIndividualColors, onlyPromotion]);
 
   const resetFilters = () => {
     setSelectedSize("todas");
     setSelectedFinish("todos");
     setSelectedColors(["Todos"]);
-    setOnlySale(false);
+    setOnlyPromotion(false);
   };
 
   const hasActiveFilters =
     selectedSize !== "todas" ||
     selectedFinish !== "todos" ||
-    onlySale ||
+    onlyPromotion ||
     (!isAllColorsSelected && activeIndividualColors.length > 0);
 
   return (
@@ -162,274 +158,245 @@ function CatalogContent() {
         </div>
       </section>
 
-      {/* Barra de Filtros y Orden */}
+      {/* Barra de Filtros — En una sola línea horizontal suelta y espaciosa */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="bg-blanco-artesanal p-4 sm:p-5 rounded-2xl border border-crema-dark/70 shadow-2xs space-y-4">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            {/* Filtro por Tamaño (Píldoras) */}
-            <div className="space-y-1.5">
-              <span className="text-[11px] font-bold text-tierra-light uppercase tracking-wider block">
-                Tamaño de la maceta
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {sizes.map((s) => (
-                  <button
-                    key={s.key}
-                    onClick={() => setSelectedSize(s.key)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 ${
-                      selectedSize === s.key
-                        ? "bg-terracotta text-white shadow-2xs"
-                        : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
-                    }`}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Filtro por Acabado y Ediciones de Color */}
-            <div className="space-y-1.5">
-              <span className="text-[11px] font-bold text-tierra-light uppercase tracking-wider block">
-                Tipo de acabado
-              </span>
-              <div className="flex flex-wrap items-center gap-2">
-                {finishButtons.map((f) => (
-                  <button
-                    key={f.key}
-                    onClick={() => setSelectedFinish(f.key)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 ${
-                      selectedFinish === f.key
-                        ? "bg-salvia text-white shadow-2xs"
-                        : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
-                    }`}
-                  >
-                    {f.label}
-                  </button>
-                ))}
-
-                {/* Componente Desplegable Ediciones de Color */}
-                <div className="relative inline-block" ref={dropdownRef}>
-                  <button
-                    type="button"
-                    onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}
-                    aria-expanded={isColorDropdownOpen}
-                    aria-haspopup="true"
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 inline-flex items-center gap-1.5 ${
-                      !isAllColorsSelected && activeIndividualColors.length > 0
-                        ? "bg-salvia text-white shadow-2xs"
-                        : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
-                    }`}
-                  >
-                    <span>{colorButtonLabel}</span>
-                    <CaretDown
-                      size={12}
-                      weight="bold"
-                      className={`transition-transform duration-200 ${
-                        isColorDropdownOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-
-                  {/* Menú Desplegable con Casillas de Verificación (Checkboxes) */}
-                  {isColorDropdownOpen && (
-                    <div
-                      className="absolute top-full left-0 mt-2 w-64 bg-blanco-artesanal border border-crema-dark/80 rounded-2xl shadow-lg p-2.5 z-30 space-y-1 animate-in fade-in-50 zoom-in-95 duration-150"
-                      role="menu"
-                    >
-                      <div className="px-2 py-1 border-b border-crema-dark/40 mb-1">
-                        <span className="text-[11px] font-bold text-tierra uppercase tracking-wider block">
-                          Seleccionar Colores
-                        </span>
-                      </div>
-
-                      <div className="space-y-0.5">
-                        {/* 1. Todos */}
-                        <label
-                          className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
-                            isAllColorsSelected
-                              ? "bg-crema-tint/70 text-tierra font-bold"
-                              : "hover:bg-crema-tint/40 text-tierra-muted"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <input
-                              type="checkbox"
-                              checked={isAllColorsSelected}
-                              onChange={() => handleToggleColor("Todos")}
-                              className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
-                            />
-                            <span className="text-xs font-bold text-tierra">
-                              Todos
-                            </span>
-                          </div>
-                          <span className="text-[10px] text-tierra-light uppercase tracking-wider font-semibold">
-                            Todos
-                          </span>
-                        </label>
-
-                        {/* 2. Blanco Base */}
-                        <label
-                          className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
-                            selectedColors.includes("Blanco Base")
-                              ? "bg-crema-tint/70 text-tierra font-bold"
-                              : "hover:bg-crema-tint/40 text-tierra-muted"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <input
-                              type="checkbox"
-                              checked={selectedColors.includes("Blanco Base")}
-                              onChange={() => handleToggleColor("Blanco Base")}
-                              className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
-                            />
-                            <span className="text-xs font-semibold text-tierra">
-                              Blanco Base
-                            </span>
-                          </div>
-                          <span
-                            className="w-3.5 h-3.5 rounded-full bg-[#ede4d3] border border-[#cbbda8] shadow-2xs inline-block shrink-0"
-                            title="Blanco Base"
-                          />
-                        </label>
-
-                        {/* 3. Café */}
-                        <label
-                          className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
-                            selectedColors.includes("Café")
-                              ? "bg-crema-tint/70 text-tierra font-bold"
-                              : "hover:bg-crema-tint/40 text-tierra-muted"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <input
-                              type="checkbox"
-                              checked={selectedColors.includes("Café")}
-                              onChange={() => handleToggleColor("Café")}
-                              className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
-                            />
-                            <span className="text-xs font-semibold text-tierra">
-                              Café
-                            </span>
-                          </div>
-                          <span
-                            className="w-3.5 h-3.5 rounded-full bg-[#784421] shadow-2xs inline-block shrink-0"
-                            title="Café"
-                          />
-                        </label>
-
-                        {/* 4. Rojo */}
-                        <label
-                          className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
-                            selectedColors.includes("Rojo")
-                              ? "bg-crema-tint/70 text-tierra font-bold"
-                              : "hover:bg-crema-tint/40 text-tierra-muted"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <input
-                              type="checkbox"
-                              checked={selectedColors.includes("Rojo")}
-                              onChange={() => handleToggleColor("Rojo")}
-                              className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
-                            />
-                            <span className="text-xs font-semibold text-tierra">
-                              Rojo
-                            </span>
-                          </div>
-                          <span
-                            className="w-3.5 h-3.5 rounded-full bg-[#a63d2f] shadow-2xs inline-block shrink-0"
-                            title="Rojo"
-                          />
-                        </label>
-
-                        {/* 5. Azul */}
-                        <label
-                          className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
-                            selectedColors.includes("Azul")
-                              ? "bg-crema-tint/70 text-tierra font-bold"
-                              : "hover:bg-crema-tint/40 text-tierra-muted"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <input
-                              type="checkbox"
-                              checked={selectedColors.includes("Azul")}
-                              onChange={() => handleToggleColor("Azul")}
-                              className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
-                            />
-                            <span className="text-xs font-semibold text-tierra">
-                              Azul
-                            </span>
-                          </div>
-                          <span
-                            className="w-3.5 h-3.5 rounded-full bg-[#2b547e] shadow-2xs inline-block shrink-0"
-                            title="Azul"
-                          />
-                        </label>
-                      </div>
-
-                      {/* Pie del Desplegable: Botón Limpiar */}
-                      <div className="pt-2 mt-1 border-t border-crema-dark/50 flex items-center justify-between px-1">
-                        <span className="text-[11px] text-tierra-light">
-                          {!isAllColorsSelected && activeIndividualColors.length > 0
-                            ? `${activeIndividualColors.length} seleccionado(s)`
-                            : "Todos los colores"}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={handleClearColors}
-                          className="text-[11px] font-bold text-terracotta hover:text-terracotta-dark hover:underline cursor-pointer"
-                        >
-                          Limpiar
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Botón Filtro En Liquidación */}
-                <button
-                  type="button"
-                  onClick={() => setOnlySale(!onlySale)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 inline-flex items-center gap-1.5 ${
-                    onlySale
-                      ? "bg-terracotta text-white shadow-2xs"
-                      : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
-                  }`}
-                  aria-pressed={onlySale}
-                >
-                  <Tag size={13} weight={onlySale ? "fill" : "bold"} />
-                  <span>En Liquidación</span>
-                  {onlySale && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Ordenación */}
-            <div className="space-y-1.5">
-              <span className="text-[11px] font-bold text-tierra-light uppercase tracking-wider block">
-                Ordenar por
-              </span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-crema-tint border border-crema-dark rounded-xl px-3 py-1.5 text-xs font-semibold text-tierra focus:outline-none focus:ring-2 focus:ring-terracotta cursor-pointer"
+        <div className="bg-blanco-artesanal/95 px-4 sm:px-6 py-3.5 rounded-2xl border border-crema-dark/70 shadow-2xs flex flex-wrap items-center justify-between gap-3">
+          {/* Grupo de Filtros en una sola línea continua */}
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Tamaños */}
+            {sizes.map((s) => (
+              <button
+                key={s.key}
+                onClick={() => setSelectedSize(s.key)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 ${
+                  selectedSize === s.key
+                    ? "bg-terracotta text-white shadow-2xs"
+                    : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
+                }`}
               >
-                <option value="destacados">Destacados del Estudio</option>
-                <option value="precio-asc">Precio: Menor a Mayor</option>
-                <option value="precio-desc">Precio: Mayor a Menor</option>
-              </select>
+                {s.label}
+              </button>
+            ))}
+
+            <span className="hidden sm:inline-block w-px h-5 bg-crema-dark/70 mx-1" aria-hidden="true" />
+
+            {/* Acabado Natural */}
+            <button
+              onClick={() => setSelectedFinish(selectedFinish === "natural" ? "todos" : "natural")}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 ${
+                selectedFinish === "natural"
+                  ? "bg-salvia text-white shadow-2xs"
+                  : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
+              }`}
+            >
+              Acabado Natural
+            </button>
+
+            {/* Desplegable Ediciones de Color */}
+            <div className="relative inline-block" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}
+                aria-expanded={isColorDropdownOpen}
+                aria-haspopup="true"
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 inline-flex items-center gap-1.5 ${
+                  !isAllColorsSelected && activeIndividualColors.length > 0
+                    ? "bg-salvia text-white shadow-2xs"
+                    : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
+                }`}
+              >
+                <span>{colorButtonLabel}</span>
+                <CaretDown
+                  size={12}
+                  weight="bold"
+                  className={`transition-transform duration-200 ${
+                    isColorDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Menú Desplegable con Casillas de Verificación (Checkboxes) */}
+              {isColorDropdownOpen && (
+                <div
+                  className="absolute top-full left-0 mt-2 w-64 bg-blanco-artesanal border border-crema-dark/80 rounded-2xl shadow-lg p-2.5 z-30 space-y-1 animate-in fade-in-50 zoom-in-95 duration-150"
+                  role="menu"
+                >
+                  <div className="px-2 py-1 border-b border-crema-dark/40 mb-1">
+                    <span className="text-[11px] font-bold text-tierra uppercase tracking-wider block">
+                      Seleccionar Colores
+                    </span>
+                  </div>
+
+                  <div className="space-y-0.5">
+                    {/* 1. Todos */}
+                    <label
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
+                        isAllColorsSelected
+                          ? "bg-crema-tint/70 text-tierra font-bold"
+                          : "hover:bg-crema-tint/40 text-tierra-muted"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <input
+                          type="checkbox"
+                          checked={isAllColorsSelected}
+                          onChange={() => handleToggleColor("Todos")}
+                          className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
+                        />
+                        <span className="text-xs font-bold text-tierra">
+                          Todos
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-tierra-light uppercase tracking-wider font-semibold">
+                        Todos
+                      </span>
+                    </label>
+
+                    {/* 2. Blanco Base */}
+                    <label
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
+                        selectedColors.includes("Blanco Base")
+                          ? "bg-crema-tint/70 text-tierra font-bold"
+                          : "hover:bg-crema-tint/40 text-tierra-muted"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <input
+                          type="checkbox"
+                          checked={selectedColors.includes("Blanco Base")}
+                          onChange={() => handleToggleColor("Blanco Base")}
+                          className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
+                        />
+                        <span className="text-xs font-semibold text-tierra">
+                          Blanco Base
+                        </span>
+                      </div>
+                      <span
+                        className="w-3.5 h-3.5 rounded-full bg-[#ede4d3] border border-[#cbbda8] shadow-2xs inline-block shrink-0"
+                        title="Blanco Base"
+                      />
+                    </label>
+
+                    {/* 3. Café */}
+                    <label
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
+                        selectedColors.includes("Café")
+                          ? "bg-crema-tint/70 text-tierra font-bold"
+                          : "hover:bg-crema-tint/40 text-tierra-muted"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <input
+                          type="checkbox"
+                          checked={selectedColors.includes("Café")}
+                          onChange={() => handleToggleColor("Café")}
+                          className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
+                        />
+                        <span className="text-xs font-semibold text-tierra">
+                          Café
+                        </span>
+                      </div>
+                      <span
+                        className="w-3.5 h-3.5 rounded-full bg-[#784421] shadow-2xs inline-block shrink-0"
+                        title="Café"
+                      />
+                    </label>
+
+                    {/* 4. Rojo */}
+                    <label
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
+                        selectedColors.includes("Rojo")
+                          ? "bg-crema-tint/70 text-tierra font-bold"
+                          : "hover:bg-crema-tint/40 text-tierra-muted"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <input
+                          type="checkbox"
+                          checked={selectedColors.includes("Rojo")}
+                          onChange={() => handleToggleColor("Rojo")}
+                          className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
+                        />
+                        <span className="text-xs font-semibold text-tierra">
+                          Rojo
+                        </span>
+                      </div>
+                      <span
+                        className="w-3.5 h-3.5 rounded-full bg-[#a63d2f] shadow-2xs inline-block shrink-0"
+                        title="Rojo"
+                      />
+                    </label>
+
+                    {/* 5. Azul */}
+                    <label
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl cursor-pointer select-none transition-colors ${
+                        selectedColors.includes("Azul")
+                          ? "bg-crema-tint/70 text-tierra font-bold"
+                          : "hover:bg-crema-tint/40 text-tierra-muted"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <input
+                          type="checkbox"
+                          checked={selectedColors.includes("Azul")}
+                          onChange={() => handleToggleColor("Azul")}
+                          className="w-4 h-4 rounded border-crema-dark text-salvia focus:ring-salvia accent-salvia cursor-pointer"
+                        />
+                        <span className="text-xs font-semibold text-tierra">
+                          Azul
+                        </span>
+                      </div>
+                      <span
+                        className="w-3.5 h-3.5 rounded-full bg-[#2b547e] shadow-2xs inline-block shrink-0"
+                        title="Azul"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Pie del Desplegable: Botón Limpiar */}
+                  <div className="pt-2 mt-1 border-t border-crema-dark/50 flex items-center justify-between px-1">
+                    <span className="text-[11px] text-tierra-light">
+                      {!isAllColorsSelected && activeIndividualColors.length > 0
+                        ? `${activeIndividualColors.length} seleccionado(s)`
+                        : "Todos los colores"}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleClearColors}
+                      className="text-[11px] font-bold text-terracotta hover:text-terracotta-dark hover:underline cursor-pointer"
+                    >
+                      Limpiar
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
+
+            <span className="hidden sm:inline-block w-px h-5 bg-crema-dark/70 mx-1" aria-hidden="true" />
+
+            {/* Botón Filtro Promociones (Incluye Suculenta Gratis) */}
+            <button
+              type="button"
+              onClick={() => setOnlyPromotion(!onlyPromotion)}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 inline-flex items-center gap-1.5 ${
+                onlyPromotion
+                  ? "bg-salvia text-white shadow-2xs"
+                  : "bg-crema-tint text-tierra-muted hover:bg-crema-dark/70"
+              }`}
+              aria-pressed={onlyPromotion}
+            >
+              <Gift size={13} weight={onlyPromotion ? "fill" : "bold"} />
+              <span>Promociones</span>
+              {onlyPromotion && (
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              )}
+            </button>
           </div>
 
-          {/* Resumen de resultados */}
-          <div className="pt-3 border-t border-crema-dark/40 flex items-center justify-between text-xs text-tierra-muted">
+          {/* Lado derecho: Contador y Restablecer en la misma línea */}
+          <div className="flex items-center gap-3 text-xs text-tierra-muted shrink-0 ml-auto">
             <span>
-              Mostrando <strong>{filteredProducts.length}</strong> de{" "}
-              {products.length} macetas
+              <strong>{filteredProducts.length}</strong> de {products.length} macetas
             </span>
             {hasActiveFilters && (
               <button
